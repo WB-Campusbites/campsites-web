@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusBites - Campus Food Delivery & Group Split</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body data-theme="dark">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo" onclick="switchPage('home')">
+            <div class="logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            CampusBites
+        </div>
+        <ul class="nav-links">
+            <li class="nav-link active" onclick="switchPage('home', this)">Home</li>
+            <li class="nav-link" onclick="switchPage('outlets', this)">Outlets</li>
+            <li class="nav-link" onclick="switchPage('live-group', this)">Group Order</li>
+        </ul>
+        <div class="nav-actions">
+            <!-- Theme Mode Switcher -->
+            <div class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+                <span id="themeLabel" style="font-size: 0.75rem; font-weight: 600;">Dark</span>
+            </div>
+
+            <div class="nav-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search outlets...">
+            </div>
+            <button class="btn-primary" onclick="switchPage('live-group')">
+                <i class="fa-solid fa-users"></i> Group Cart
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 1. HOME PAGE -->
+        <div id="page-home" class="page-view active">
+            <div class="hero-banner">
+                <span class="badge-red">Group Ordering Activated</span>
+                <h1 class="hero-title">One Group. One Cart.<br>Everyone Orders.</h1>
+                <p class="hero-desc">Create a cart, share your group code, select favorites with friends, and enjoy automatic bill-splitting without passing the phone around.</p>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn-primary" onclick="switchPage('live-group')">Start Group Order</button>
+                    <button class="btn-outline" onclick="switchPage('outlets')">Order Separately</button>
+                </div>
+            </div>
+
+            <div class="section-title">What's on your mind?</div>
+            <div class="category-row">
+                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍔</div><div style="font-size:0.8rem;">Burgers</div></div>
+                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🌯</div><div style="font-size:0.8rem;">Wraps</div></div>
+                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍜</div><div style="font-size:0.8rem;">Chinese</div></div>
+                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍲</div><div style="font-size:0.8rem;">South Indian</div></div>
+                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🥤</div><div style="font-size:0.8rem;">Beverages</div></div>
+                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍰</div><div style="font-size:0.8rem;">Desserts</div></div>
+            </div>
+
+            <div class="section-title">
+                Popular Campus Outlets
+                <span style="font-size: 0.8rem; color: var(--primary); cursor: pointer;" onclick="switchPage('outlets')">View All →</span>
+            </div>
+            <div class="outlets-grid" id="homeOutletsGrid"></div>
+        </div>
+
+        <!-- 2. ALL OUTLETS PAGE -->
+        <div id="page-outlets" class="page-view">
+            <h2 style="font-family: var(--font-title); font-size: 1.8rem; margin-bottom: 6px;">Campus Outlets</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 25px;">Explore operating kitchens and dining counters across campus hubs.</p>
+            <div class="outlets-grid" id="allOutletsGrid"></div>
+        </div>
+
+        <!-- 3. RESTAURANT MENU PAGE -->
+        <div id="page-menu" class="page-view">
+            <div style="margin-bottom: 20px;">
+                <h2 style="font-family: var(--font-title); font-size: 1.8rem;" id="menuOutletTitle">Burger Singh</h2>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Indian Fusion Burgers • 15-20 mins delivery</p>
+            </div>
+
+            <div class="menu-layout">
+                <div class="menu-nav-sidebar">
+                    <div class="menu-nav-item active">Burgers & Combos</div>
+                    <div class="menu-nav-item">Sides</div>
+                    <div class="menu-nav-item">Beverages</div>
+                </div>
+
+                <div>
+                    <div class="menu-grid" id="menuItemsGrid"></div>
+                </div>
+
+                <div class="cart-sidebar">
+                    <h4 style="margin-bottom: 12px; font-size: 0.95rem;">Basket Preview</h4>
+                    <div id="cartSidebarItems"></div>
+                    <div class="cart-summary-line"><span>Subtotal</span><span id="previewSubtotal">₹0</span></div>
+                    <div class="cart-summary-line"><span>Taxes & Delivery</span><span id="previewTaxes">₹45</span></div>
+                    <div class="cart-summary-line total"><span>Total</span><span id="previewTotal">₹0</span></div>
+                    <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="switchPage('live-group')">View Live Group Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. LIVE GROUP CART -->
+        <div id="page-live-group" class="page-view">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h2 style="font-family: var(--font-title); font-size: 1.6rem;">Hostel 4 Lunch Squad <span class="badge-red" style="margin-left: 8px;">Live Group Order</span></h2>
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">Ordering from <strong>Burger Singh</strong> • Shared cart is active</p>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="font-size: 0.85rem; background: var(--bg-card); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color);">Code: <strong>CB-7X2W</strong></span>
+                    <button class="btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="addFriendPrompt()">+ Invite Friend</button>
+                </div>
+            </div>
+
+            <div class="group-squad-grid" id="squadCardsContainer"></div>
+
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Combined Basket Total (<span id="totalItemCount">0</span> items)</div>
+                    <div style="font-size: 1.4rem; font-weight: 700; color: var(--primary);" id="liveGrandTotal">₹0</div>
+                </div>
+                <button class="btn-primary" style="padding: 12px 28px;" onclick="switchPage('bill-split')">Place Combined Order →</button>
+            </div>
+        </div>
+
+        <!-- 5. GROUP BILL SPLIT SUMMARY -->
+        <div id="page-bill-split" class="page-view">
+            <div class="split-banner">
+                <div>
+                    <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Order Assembled Successfully</div>
+                    <h3 style="font-size: 1.3rem; margin-top: 2px;">Group Bill Split Summary</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.9;">Order total: <strong id="splitBannerTotal">₹1,179</strong> paid via Host. Friends can now settle their share.</p>
+                </div>
+                <button class="btn-outline" style="background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.3); color: white;" onclick="window.print()"><i class="fa-solid fa-download"></i> Download Split PDF</button>
+            </div>
+
+            <div class="split-bar-container">
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                    <strong>Split Distribution</strong>
+                    <span style="color: var(--text-muted);">Code: CB-7X2W • Burger Singh</span>
+                </div>
+                <div class="multi-progress-bar" id="multiProgressBar"></div>
+                <div style="display: flex; gap: 20px; font-size: 0.75rem; flex-wrap: wrap;" id="splitLegend"></div>
+            </div>
+
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 25px;">
+                <table class="split-table">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Items Assigned</th>
+                            <th>Share %</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="splitTableBody"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align: right;">
+                <button class="btn-primary" style="padding: 12px 30px;" onclick="switchPage('order-confirmed')">Confirm & Pay Now</button>
+            </div>
+        </div>
+
+        <!-- 6. ORDER CONFIRMED SCREEN -->
+        <div id="page-order-confirmed" class="page-view">
+            <div class="status-box">
+                <i class="fa-solid fa-circle-check" style="font-size: 3rem; color: var(--success); margin-bottom: 12px;"></i>
+                <h2 style="font-family: var(--font-title); font-size: 1.8rem;">Order Confirmed! Preparing Delicious Bites.</h2>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Order ID: #CB-829107 • Estimated Delivery: 15-20 mins</p>
+                
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                    <button class="btn-primary" style="font-size: 0.8rem;"><i class="fa-solid fa-location-dot"></i> Track Live Location</button>
+                    <button class="btn-outline" style="font-size: 0.8rem;" onclick="switchPage('home')">Order Again</button>
+                </div>
+
+                <div class="status-timeline">
+                    <div class="timeline-step active">
+                        <strong>Order Confirmed</strong>
+                        <div style="color: var(--text-muted);">Restaurant Burger Singh has accepted your squad order.</div>
+                    </div>
+                    <div class="timeline-step active">
+                        <strong>Preparing Your Cravings</strong>
+                        <div style="color: var(--text-muted);">Kitchen is assembling your burgers & brewing saffron cold coffee.</div>
+                    </div>
+                    <div class="timeline-step">
+                        <strong>Out for Delivery</strong>
+                        <div style="color: var(--text-muted);">Delivery partner will pick up one neat packet for Hostel 4.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div>
+            <div class="logo" style="margin-bottom: 10px;">
+                <div class="logo-icon"><i class="fa-solid fa-utensils"></i></div> CampusBites
+            </div>
+            <p style="max-width: 280px; line-height: 1.4;">The ultimate campus companion. Bringing students, food, and hassle-free bill-splitting together in one unified platform.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Quick Links</h5>
+            <ul>
+                <li onclick="switchPage('outlets')">Browse Outlets</li>
+                <li onclick="switchPage('live-group')">Start Group Order</li>
+                <li onclick="switchPage('home')">Order History</li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>For Outlets</h5>
+            <ul>
+                <li>Partner with Us</li>
+                <li>Dashboard Portal</li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Support</h5>
+            <ul>
+                <li>Help Center / FAQs</li>
+                <li>Refund Policies</li>
+                <li>Campus Support</li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const outlets = [
+            { id: 'b-singh', name: 'Burger Singh', rating: 4.4, tags: 'American, Fast Food', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80' },
+            { id: 'k-junc', name: 'Kathi Junction', rating: 4.2, tags: 'North Indian, Rolls', img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80' },
+            { id: 'm-point', name: 'Maggi Point', rating: 4.0, tags: 'Maggi, Fast Food', img: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80' },
+            { id: 'greenex', name: 'Greenex', rating: 4.1, tags: 'Healthy, Bowls, Smoothies', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80' }
+        ];
+
+        const menuItems = [
+            { id: 'm1', name: 'Spicy Amritsari Burger', price: 189, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80' },
+            { id: 'm2', name: 'Saffron Cold Coffee', price: 120, img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=300&q=80' },
+            { id: 'm3', name: 'Churkiy Paner Burger', price: 169, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=300&q=80' },
+            { id: 'm4', name: 'Malabar Fries', price: 99, img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80' },
+            { id: 'm5', name: 'Classic Mint Ice Tea', price: 79, img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80' },
+            { id: 'm6', name: 'Junior Burger', price: 90, img: 'https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=300&q=80' }
+        ];
+
+        let squadData = {
+            'Rahul': [
+                { id: 'm1', name: 'Spicy Amritsari Burger', price: 189, qty: 2 },
+                { id: 'm2', name: 'Saffron Cold Coffee', price: 120, qty: 1 }
+            ],
+            'Aman': [
+                { id: 'm4', name: 'Malabar Fries', price: 99, qty: 1 },
+                { id: 'm3', name: 'Churkiy Paner Burger', price: 169, qty: 1 }
+            ],
+            'Sneha': [
+                { id: 'm5', name: 'Classic Mint Ice Tea', price: 79, qty: 2 },
+                { id: 'm6', name: 'Junior Burger', price: 90, qty: 1 }
+            ],
+            'Priyanush': [
+                { id: 'm2', name: 'Saffron Cold Coffee', price: 120, qty: 1 }
+            ]
+        };
+
+        const userColors = {
+            'Rahul': 'var(--color-rahul)',
+            'Aman': 'var(--color-aman)',
+            'Sneha': 'var(--color-sneha)',
+            'Priyanush': 'var(--color-priyanush)'
+        };
+
+        const TAXES_DELIVERY = 45;
+
+        // Theme Switcher Logic
+        function initTheme() {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('cb-theme') || (systemPrefersDark ? 'dark' : 'light');
+            setTheme(savedTheme);
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('cb-theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+        }
+
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('cb-theme', theme);
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
+
+            if (theme === 'light') {
+                icon.className = 'fa-solid fa-sun';
+                label.innerText = 'Light';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+                label.innerText = 'Dark';
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            renderOutlets();
+            renderMenuItems();
+            updateUI();
+        });
+
+        function switchPage(pageId, navEl = null) {
+            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+
+            if (navEl) {
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                navEl.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (pageId === 'bill-split') renderBillSplit();
+            if (pageId === 'live-group') renderSquadGroup();
+        }
+
+        function renderOutlets() {
+            const html = outlets.map(o => `
+                <div class="outlet-card" onclick="switchPage('menu')">
+                    <div class="outlet-img" style="background-image: url('${o.img}')"></div>
+                    <div class="outlet-body">
+                        <div class="outlet-head">
+                            <strong style="font-size:0.95rem;">${o.name}</strong>
+                            <span class="outlet-rating"><i class="fa-solid fa-star" style="color:#FFD700;"></i> ${o.rating}</span>
+                        </div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">${o.tags}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('homeOutletsGrid').innerHTML = html;
+            document.getElementById('allOutletsGrid').innerHTML = html;
+        }
+
+        function renderMenuItems() {
+            document.getElementById('menuItemsGrid').innerHTML = menuItems.map(item => `
+                <div class="food-card">
+                    <div class="food-img" style="background-image: url('${item.img}')"></div>
+                    <div class="food-details">
+                        <div class="food-title">${item.name}</div>
+                        <div class="food-footer">
+                            <span class="food-price">₹${item.price}</span>
+                            <button class="btn-add-item" onclick="addItemToUser('Rahul', '${item.id}')">+ Add</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addItemToUser(user, itemId) {
+            const item = menuItems.find(m => m.id === itemId);
+            if (!squadData[user]) squadData[user] = [];
+            const existing = squadData[user].find(i => i.id === itemId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                squadData[user].push({ id: item.id, name: item.name, price: item.price, qty: 1 });
+            }
+            updateUI();
+        }
+
+        function addFriendPrompt() {
+            const name = prompt("Enter friend's name:");
+            if (name && !squadData[name]) {
+                squadData[name] = [];
+                userColors[name] = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+                updateUI();
+                renderSquadGroup();
+            }
+        }
+
+        function updateUI() {
+            let totalItemCount = 0;
+            let netSubtotal = 0;
+            let sidebarHtml = '';
+
+            Object.keys(squadData).forEach(user => {
+                squadData[user].forEach(item => {
+                    totalItemCount += item.qty;
+                    netSubtotal += item.price * item.qty;
+
+                    sidebarHtml += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <h5>${item.name} x${item.qty}</h5>
+                                <span class="cart-item-user">For ${user}</span>
+                            </div>
+                            <strong>₹${item.price * item.qty}</strong>
+                        </div>
+                    `;
+                });
+            });
+
+            document.getElementById('cartSidebarItems').innerHTML = sidebarHtml || '<div style="font-size:0.8rem; color:var(--text-muted); padding:10px 0;">Cart is empty.</div>';
+            document.getElementById('previewSubtotal').innerText = `₹${netSubtotal}`;
+            document.getElementById('previewTotal').innerText = `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
+            document.getElementById('liveGrandTotal').innerText = `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
+            document.getElementById('totalItemCount').innerText = totalItemCount;
+        }
+
+        function renderSquadGroup() {
+            updateUI();
+            const container = document.getElementById('squadCardsContainer');
+            container.innerHTML = '';
+
+            Object.keys(squadData).forEach(user => {
+                let userSubtotal = 0;
+                const itemsHtml = squadData[user].map(item => {
+                    const cost = item.price * item.qty;
+                    userSubtotal += cost;
+                    return `
+                        <div class="squad-item-row">
+                            <span>${item.name} (x${item.qty})</span>
+                            <strong>₹${cost}</strong>
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML += `
+                    <div class="squad-card">
+                        <div class="squad-user-header">
+                            <div class="user-avatar" style="background: ${userColors[user] || 'var(--primary-purple)'};">${user[0]}</div>
+                            <strong>${user}</strong>
+                        </div>
+                        ${itemsHtml || '<div style="font-size:0.75rem; color:var(--text-muted);">No items selected.</div>'}
+                        <div class="squad-user-total">
+                            <span>Subtotal</span>
+                            <span>₹${userSubtotal}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderBillSplit() {
+            let groupSubtotal = 0;
+            const userSubtotals = {};
+
+            Object.keys(squadData).forEach(user => {
+                userSubtotals[user] = squadData[user].reduce((acc, i) => acc + (i.price * i.qty), 0);
+                groupSubtotal += userSubtotals[user];
+            });
+
+            const grandTotal = groupSubtotal + TAXES_DELIVERY;
+            document.getElementById('splitBannerTotal').innerText = `₹${grandTotal}`;
+
+            const progressBar = document.getElementById('multiProgressBar');
+            const legend = document.getElementById('splitLegend');
+            const tableBody = document.getElementById('splitTableBody');
+
+            progressBar.innerHTML = '';
+            legend.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            Object.keys(squadData).forEach(user => {
+                const personSub = userSubtotals[user];
+                const personTax = groupSubtotal > 0 ? (personSub / groupSubtotal) * TAXES_DELIVERY : 0;
+                const personTotal = Math.round(personSub + personTax);
+                const pct = grandTotal > 0 ? Math.round((personTotal / grandTotal) * 100) : 0;
+                const color = userColors[user] || '#888';
+
+                progressBar.innerHTML += `<div class="bar-segment" style="width: ${pct}%; background: ${color};"></div>`;
+
+                legend.innerHTML += `
+                    <div style="display:flex; align-items:center; gap:5px;">
+                        <span style="width:8px; height:8px; border-radius:50%; background:${color};"></span>
+                        ${user}: ${pct}%
+                    </div>
+                `;
+
+                const itemsSummary = squadData[user].map(i => `${i.name} (x${i.qty})`).join(', ');
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div class="user-avatar" style="background:${color}; width:24px; height:24px; font-size:0.7rem;">${user[0]}</div>
+                                <strong>${user}</strong>
+                            </div>
+                        </td>
+                        <td style="color:var(--text-muted);">${itemsSummary || 'None'}</td>
+                        <td>${pct}%</td>
+                        <td><strong>₹${personTotal}</strong></td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
