@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- External CSS -->
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body data-theme="dark">
 
@@ -117,12 +117,13 @@
         <div id="page-live-group" class="page-view">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <div>
-                    <h2 style="font-family: var(--font-title); font-size: 1.6rem;">Hostel 4 Lunch Squad <span class="badge-red" style="margin-left: 8px;">Live Group Order</span></h2>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">Ordering from <strong>Burger Singh</strong> • Shared cart is active</p>
+                    <h2 style="font-family: var(--font-title); font-size: 1.6rem;">CampusBites Group Cart <span class="badge-red" style="margin-left: 8px;">Live Group Order</span></h2>
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">Ordering from <strong>Burger Singh</strong> • Add items from the menu and the cart updates automatically.</p>
                 </div>
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <span style="font-size: 0.85rem; background: var(--bg-card); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color);">Code: <strong>CB-7X2W</strong></span>
+                    <span style="font-size: 0.85rem; background: var(--bg-card); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color);">Code: <strong id="groupCodeDisplay">CB-XXXX</strong></span>
                     <button class="btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="addFriendPrompt()">+ Invite Friend</button>
+                    <button class="btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="startNewGroup()">New Group</button>
                 </div>
             </div>
 
@@ -143,7 +144,7 @@
                 <div>
                     <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Order Assembled Successfully</div>
                     <h3 style="font-size: 1.3rem; margin-top: 2px;">Group Bill Split Summary</h3>
-                    <p style="font-size: 0.8rem; opacity: 0.9;">Order total: <strong id="splitBannerTotal">₹1,179</strong> paid via Host. Friends can now settle their share.</p>
+                    <p style="font-size: 0.8rem; opacity: 0.9;">Order total: <strong id="splitBannerTotal">₹0</strong> paid via Host. Friends can now settle their share.</p>
                 </div>
                 <button class="btn-outline" style="background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.3); color: white;" onclick="window.print()"><i class="fa-solid fa-download"></i> Download Split PDF</button>
             </div>
@@ -151,7 +152,7 @@
             <div class="split-bar-container">
                 <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
                     <strong>Split Distribution</strong>
-                    <span style="color: var(--text-muted);">Code: CB-7X2W • Burger Singh</span>
+                    <span style="color: var(--text-muted);">Code: <span id="splitGroupCode">CB-XXXX</span> • Burger Singh</span>
                 </div>
                 <div class="multi-progress-bar" id="multiProgressBar"></div>
                 <div style="display: flex; gap: 20px; font-size: 0.75rem; flex-wrap: wrap;" id="splitLegend"></div>
@@ -242,11 +243,12 @@
 
     <!-- JavaScript Logic -->
     <script>
+
         const outlets = [
             { id: 'b-singh', name: 'Burger Singh', rating: 4.4, tags: 'American, Fast Food', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80' },
             { id: 'k-junc', name: 'Kathi Junction', rating: 4.2, tags: 'North Indian, Rolls', img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80' },
             { id: 'm-point', name: 'Maggi Point', rating: 4.0, tags: 'Maggi, Fast Food', img: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80' },
-            { id: 'greenex', name: 'Greenex', rating: 4.1, tags: 'Healthy, Bowls, Smoothies', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80' }
+            { id: 'greenox', name: 'Greenox', rating: 4.1, tags: 'Healthy, Bowls, Smoothies', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80' }
         ];
 
         const menuItems = [
@@ -258,32 +260,46 @@
             { id: 'm6', name: 'Junior Burger', price: 90, img: 'https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=300&q=80' }
         ];
 
-        let squadData = {
-            'Rahul': [
-                { id: 'm1', name: 'Spicy Amritsari Burger', price: 189, qty: 2 },
-                { id: 'm2', name: 'Saffron Cold Coffee', price: 120, qty: 1 }
-            ],
-            'Aman': [
-                { id: 'm4', name: 'Malabar Fries', price: 99, qty: 1 },
-                { id: 'm3', name: 'Churkiy Paner Burger', price: 169, qty: 1 }
-            ],
-            'Sneha': [
-                { id: 'm5', name: 'Classic Mint Ice Tea', price: 79, qty: 2 },
-                { id: 'm6', name: 'Junior Burger', price: 90, qty: 1 }
-            ],
-            'Priyanush': [
-                { id: 'm2', name: 'Saffron Cold Coffee', price: 120, qty: 1 }
-            ]
-        };
-
-        const userColors = {
-            'Rahul': 'var(--color-rahul)',
-            'Aman': 'var(--color-aman)',
-            'Sneha': 'var(--color-sneha)',
-            'Priyanush': 'var(--color-priyanush)'
-        };
-
+        // LIVE GROUP DATA
+        // Starts empty. Users add their own items through the menu.
+        let squadData = {};
+        let userColors = {};
+        let currentUser = localStorage.getItem('cb-current-user') || '';
+        let groupCode = localStorage.getItem('cb-group-code') || generateGroupCode();
         const TAXES_DELIVERY = 45;
+
+        function generateGroupCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = 'CB-';
+            for (let i = 0; i < 4; i++) {
+                code += chars[Math.floor(Math.random() * chars.length)];
+            }
+            localStorage.setItem('cb-group-code', code);
+            return code;
+        }
+
+        function getUserColor(user) {
+            if (!userColors[user]) {
+                const colors = ['#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#f59e0b', '#ec4899'];
+                userColors[user] = colors[Object.keys(userColors).length % colors.length];
+            }
+            return userColors[user];
+        }
+
+        function getCurrentUser() {
+            if (!currentUser) {
+                const name = prompt("Enter your name to start ordering:");
+                currentUser = name && name.trim() ? name.trim() : 'You';
+                localStorage.setItem('cb-current-user', currentUser);
+            }
+
+            if (!squadData[currentUser]) {
+                squadData[currentUser] = [];
+            }
+
+            getUserColor(currentUser);
+            return currentUser;
+        }
 
         // Theme Switcher Logic
         function initTheme() {
@@ -315,14 +331,14 @@
 
         function toggleTheme() {
             const currentTheme = document.body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            setTheme(newTheme);
+            setTheme(currentTheme === 'light' ? 'dark' : 'light');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
             renderOutlets();
             renderMenuItems();
+            updateGroupHeader();
             updateUI();
         });
 
@@ -339,6 +355,7 @@
 
             if (pageId === 'bill-split') renderBillSplit();
             if (pageId === 'live-group') renderSquadGroup();
+            if (pageId === 'menu') updateUI();
         }
 
         function renderOutlets() {
@@ -367,33 +384,90 @@
                         <div class="food-title">${item.name}</div>
                         <div class="food-footer">
                             <span class="food-price">₹${item.price}</span>
-                            <button class="btn-add-item" onclick="addItemToUser('Rahul', '${item.id}')">+ Add</button>
+                            <button class="btn-add-item" onclick="addItemToCurrentUser('${item.id}')">+ Add</button>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
+        function addItemToCurrentUser(itemId) {
+            const user = getCurrentUser();
+            addItemToUser(user, itemId);
+        }
+
         function addItemToUser(user, itemId) {
             const item = menuItems.find(m => m.id === itemId);
-            if (!squadData[user]) squadData[user] = [];
+            if (!item) return;
+
+            if (!squadData[user]) {
+                squadData[user] = [];
+                getUserColor(user);
+            }
+
             const existing = squadData[user].find(i => i.id === itemId);
+
             if (existing) {
                 existing.qty++;
             } else {
-                squadData[user].push({ id: item.id, name: item.name, price: item.price, qty: 1 });
+                squadData[user].push({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    qty: 1
+                });
             }
+
             updateUI();
+            renderSquadGroup();
+        }
+
+        function changeItemQty(user, itemId, change) {
+            if (!squadData[user]) return;
+
+            const item = squadData[user].find(i => i.id === itemId);
+            if (!item) return;
+
+            item.qty += change;
+
+            if (item.qty <= 0) {
+                squadData[user] = squadData[user].filter(i => i.id !== itemId);
+            }
+
+            updateUI();
+            renderSquadGroup();
+        }
+
+        function removeItem(user, itemId) {
+            if (!squadData[user]) return;
+
+            squadData[user] = squadData[user].filter(i => i.id !== itemId);
+
+            updateUI();
+            renderSquadGroup();
         }
 
         function addFriendPrompt() {
             const name = prompt("Enter friend's name:");
-            if (name && !squadData[name]) {
-                squadData[name] = [];
-                userColors[name] = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-                updateUI();
-                renderSquadGroup();
+
+            if (name && name.trim()) {
+                const cleanName = name.trim();
+
+                if (!squadData[cleanName]) {
+                    squadData[cleanName] = [];
+                    getUserColor(cleanName);
+                    renderSquadGroup();
+                } else {
+                    alert("This member is already in the group.");
+                }
             }
+        }
+
+        function updateGroupHeader() {
+            const codeElement = document.getElementById('groupCodeDisplay');
+            if (codeElement) codeElement.innerText = groupCode;
+            const splitCode = document.getElementById('splitGroupCode');
+            if (splitCode) splitCode.innerText = groupCode;
         }
 
         function updateUI() {
@@ -411,6 +485,11 @@
                             <div class="cart-item-info">
                                 <h5>${item.name} x${item.qty}</h5>
                                 <span class="cart-item-user">For ${user}</span>
+                                <div style="display:flex; gap:5px; margin-top:5px;">
+                                    <button onclick="changeItemQty('${user}', '${item.id}', -1)">−</button>
+                                    <button onclick="changeItemQty('${user}', '${item.id}', 1)">+</button>
+                                    <button onclick="removeItem('${user}', '${item.id}')">Remove</button>
+                                </div>
                             </div>
                             <strong>₹${item.price * item.qty}</strong>
                         </div>
@@ -418,27 +497,55 @@
                 });
             });
 
-            document.getElementById('cartSidebarItems').innerHTML = sidebarHtml || '<div style="font-size:0.8rem; color:var(--text-muted); padding:10px 0;">Cart is empty.</div>';
+            document.getElementById('cartSidebarItems').innerHTML =
+                sidebarHtml ||
+                '<div style="font-size:0.8rem; color:var(--text-muted); padding:10px 0;">Cart is empty. Add items from the menu.</div>';
+
             document.getElementById('previewSubtotal').innerText = `₹${netSubtotal}`;
-            document.getElementById('previewTotal').innerText = `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
-            document.getElementById('liveGrandTotal').innerText = `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
+            document.getElementById('previewTaxes').innerText = `₹${netSubtotal > 0 ? TAXES_DELIVERY : 0}`;
+            document.getElementById('previewTotal').innerText =
+                `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
+
+            document.getElementById('liveGrandTotal').innerText =
+                `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
+
             document.getElementById('totalItemCount').innerText = totalItemCount;
         }
 
         function renderSquadGroup() {
             updateUI();
+
             const container = document.getElementById('squadCardsContainer');
             container.innerHTML = '';
 
-            Object.keys(squadData).forEach(user => {
+            const users = Object.keys(squadData);
+
+            if (users.length === 0) {
+                container.innerHTML = `
+                    <div style="padding:30px; text-align:center; color:var(--text-muted);">
+                        <i class="fa-solid fa-users" style="font-size:2rem; margin-bottom:10px;"></i>
+                        <p>No members yet. Start by adding your food from the Menu.</p>
+                        <button class="btn-primary" onclick="switchPage('menu')">Browse Menu</button>
+                    </div>
+                `;
+                return;
+            }
+
+            users.forEach(user => {
                 let userSubtotal = 0;
+
                 const itemsHtml = squadData[user].map(item => {
                     const cost = item.price * item.qty;
                     userSubtotal += cost;
+
                     return `
                         <div class="squad-item-row">
                             <span>${item.name} (x${item.qty})</span>
-                            <strong>₹${cost}</strong>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <button onclick="changeItemQty('${user}', '${item.id}', -1)">−</button>
+                                <strong>₹${cost}</strong>
+                                <button onclick="changeItemQty('${user}', '${item.id}', 1)">+</button>
+                            </div>
                         </div>
                     `;
                 }).join('');
@@ -446,14 +553,22 @@
                 container.innerHTML += `
                     <div class="squad-card">
                         <div class="squad-user-header">
-                            <div class="user-avatar" style="background: ${userColors[user] || 'var(--primary-purple)'};">${user[0]}</div>
+                            <div class="user-avatar" style="background: ${getUserColor(user)};">${user[0].toUpperCase()}</div>
                             <strong>${user}</strong>
                         </div>
-                        ${itemsHtml || '<div style="font-size:0.75rem; color:var(--text-muted);">No items selected.</div>'}
+
+                        ${itemsHtml || '<div style="font-size:0.75rem; color:var(--text-muted);">No items selected yet.</div>'}
+
                         <div class="squad-user-total">
                             <span>Subtotal</span>
                             <span>₹${userSubtotal}</span>
                         </div>
+
+                        <button class="btn-outline"
+                                style="width:100%; margin-top:10px; font-size:0.75rem;"
+                                onclick="switchPage('menu')">
+                            + Add Food
+                        </button>
                     </div>
                 `;
             });
@@ -464,11 +579,14 @@
             const userSubtotals = {};
 
             Object.keys(squadData).forEach(user => {
-                userSubtotals[user] = squadData[user].reduce((acc, i) => acc + (i.price * i.qty), 0);
+                userSubtotals[user] = squadData[user].reduce(
+                    (acc, item) => acc + (item.price * item.qty), 0
+                );
                 groupSubtotal += userSubtotals[user];
             });
 
-            const grandTotal = groupSubtotal + TAXES_DELIVERY;
+            const grandTotal = groupSubtotal > 0 ? groupSubtotal + TAXES_DELIVERY : 0;
+
             document.getElementById('splitBannerTotal').innerText = `₹${grandTotal}`;
 
             const progressBar = document.getElementById('multiProgressBar');
@@ -479,14 +597,30 @@
             legend.innerHTML = '';
             tableBody.innerHTML = '';
 
+            if (groupSubtotal === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align:center; padding:25px; color:var(--text-muted);">
+                            No items in the group cart yet.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
             Object.keys(squadData).forEach(user => {
                 const personSub = userSubtotals[user];
-                const personTax = groupSubtotal > 0 ? (personSub / groupSubtotal) * TAXES_DELIVERY : 0;
-                const personTotal = Math.round(personSub + personTax);
-                const pct = grandTotal > 0 ? Math.round((personTotal / grandTotal) * 100) : 0;
-                const color = userColors[user] || '#888';
 
-                progressBar.innerHTML += `<div class="bar-segment" style="width: ${pct}%; background: ${color};"></div>`;
+                // Taxes/delivery are divided proportionally according to each person's food subtotal.
+                const personTax = (personSub / groupSubtotal) * TAXES_DELIVERY;
+                const personTotal = Math.round(personSub + personTax);
+                const pct = Math.round((personTotal / grandTotal) * 100);
+                const color = getUserColor(user);
+
+                progressBar.innerHTML += `
+                    <div class="bar-segment"
+                         style="width:${pct}%; background:${color};"></div>
+                `;
 
                 legend.innerHTML += `
                     <div style="display:flex; align-items:center; gap:5px;">
@@ -495,12 +629,18 @@
                     </div>
                 `;
 
-                const itemsSummary = squadData[user].map(i => `${i.name} (x${i.qty})`).join(', ');
+                const itemsSummary = squadData[user]
+                    .map(i => `${i.name} (x${i.qty})`)
+                    .join(', ');
+
                 tableBody.innerHTML += `
                     <tr>
                         <td>
                             <div style="display:flex; align-items:center; gap:8px;">
-                                <div class="user-avatar" style="background:${color}; width:24px; height:24px; font-size:0.7rem;">${user[0]}</div>
+                                <div class="user-avatar"
+                                     style="background:${color}; width:24px; height:24px; font-size:0.7rem;">
+                                    ${user[0].toUpperCase()}
+                                </div>
                                 <strong>${user}</strong>
                             </div>
                         </td>
@@ -511,6 +651,24 @@
                 `;
             });
         }
+
+        // Start a fresh group order.
+        function startNewGroup() {
+            if (!confirm("Start a new group order? The current cart will be cleared.")) return;
+
+            squadData = {};
+            userColors = {};
+            currentUser = '';
+            localStorage.removeItem('cb-current-user');
+
+            groupCode = generateGroupCode();
+
+            updateGroupHeader();
+            updateUI();
+            renderSquadGroup();
+            switchPage('menu');
+        }
+
     </script>
 </body>
 </html>
