@@ -17,8 +17,8 @@
 
 ##  Built With
 
-* **HTML5** – Semantic layout structures
-* **CSS3** – Custom properties (variables), Flexbox, CSS Grid, and adaptive theme switching
+* **HTML** – Semantic layout structures
+* **CSS** – Custom properties (variables), Flexbox, CSS Grid.
 * **Google Fonts & FontAwesome** – Inter, Outfit typography, and UI icons
 
 ---
