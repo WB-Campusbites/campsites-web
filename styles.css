@@ -90,8 +90,16 @@ body.light .navbar {
     border: none;
 }
 
+/* Button hover effect
+   Gives visual feedback when the user moves the cursor over a button. */
+
+.button {
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
 .button:hover {
     background: #c62828;
+    transform: translateY(-2px);
 }
 
 .outline-button,
@@ -302,13 +310,21 @@ h2 {
     align-items: center;
 }
 
+/* Add button interaction
+   Makes the food ordering action more noticeable on hover. */
+
 .add-button {
     background: #e53935;
     color: white;
     border: none;
     padding: 6px 12px;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
+.add-button:hover {
+    background: #c62828;
+    transform: scale(1.05);
+}
 .cart h3 {
     margin-bottom: 15px;
 }
