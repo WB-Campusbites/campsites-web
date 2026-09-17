@@ -1,674 +1,659 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusBites - Campus Food Delivery & Group Split</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- External CSS -->
-    <link rel="stylesheet" href="style.css">
+    <title>CampusBites</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body data-theme="dark">
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo" onclick="switchPage('home')">
-            <div class="logo-icon"><i class="fa-solid fa-utensils"></i></div>
-            CampusBites
-        </div>
-        <ul class="nav-links">
-            <li class="nav-link active" onclick="switchPage('home', this)">Home</li>
-            <li class="nav-link" onclick="switchPage('outlets', this)">Outlets</li>
-            <li class="nav-link" onclick="switchPage('live-group', this)">Group Order</li>
-        </ul>
-        <div class="nav-actions">
-            <!-- Theme Mode Switcher -->
-            <div class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-                <span id="themeLabel" style="font-size: 0.75rem; font-weight: 600;">Dark</span>
-            </div>
+<body>
 
-            <div class="nav-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search outlets...">
-            </div>
-            <button class="btn-primary" onclick="switchPage('live-group')">
-                <i class="fa-solid fa-users"></i> Group Cart
-            </button>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo" onclick="switchPage('home')">🍔 CampusBites</div>
+
+        <div class="nav-links">
+            <div class="nav-link active" onclick="switchPage('home', this)">Home</div>
+            <div class="nav-link" onclick="switchPage('outlets', this)">Outlets</div>
+            <div class="nav-link" onclick="switchPage('live-group', this)">Group Order</div>
         </div>
-    </nav>
+
+        <div class="nav-buttons">
+            <button class="theme-button" onclick="toggleTheme()" id="themeButton">🌙 Dark</button>
+            <input class="search" type="text" placeholder="Search outlets...">
+            <button class="button" onclick="switchPage('live-group')">Group Cart</button>
+        </div>
+    </div>
 
     <div class="container">
 
-        <!-- 1. HOME PAGE -->
-        <div id="page-home" class="page-view active">
-            <div class="hero-banner">
-                <span class="badge-red">Group Ordering Activated</span>
-                <h1 class="hero-title">One Group. One Cart.<br>Everyone Orders.</h1>
-                <p class="hero-desc">Create a cart, share your group code, select favorites with friends, and enjoy automatic bill-splitting without passing the phone around.</p>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn-primary" onclick="switchPage('live-group')">Start Group Order</button>
-                    <button class="btn-outline" onclick="switchPage('outlets')">Order Separately</button>
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page active">
+
+            <div class="hero">
+                <div class="badge">Group Ordering Activated</div>
+                <h1>One Group. One Cart.<br>Everyone Orders.</h1>
+                <p>
+                    Create a cart, share your group code, select food with friends,
+                    and split the bill easily.
+                </p>
+
+                <div class="buttons">
+                    <button class="button" onclick="switchPage('live-group')">Start Group Order</button>
+                    <button class="outline-button" onclick="switchPage('outlets')">Order Separately</button>
                 </div>
             </div>
 
-            <div class="section-title">What's on your mind?</div>
-            <div class="category-row">
-                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍔</div><div style="font-size:0.8rem;">Burgers</div></div>
-                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🌯</div><div style="font-size:0.8rem;">Wraps</div></div>
-                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍜</div><div style="font-size:0.8rem;">Chinese</div></div>
-                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍲</div><div style="font-size:0.8rem;">South Indian</div></div>
-                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🥤</div><div style="font-size:0.8rem;">Beverages</div></div>
-                <div class="category-card" onclick="switchPage('menu')"><div class="category-icon">🍰</div><div style="font-size:0.8rem;">Desserts</div></div>
+            <h2>What's on your mind?</h2>
+
+            <div class="categories">
+                <div class="category" onclick="switchPage('menu')">🍔<br>Burgers</div>
+                <div class="category" onclick="switchPage('menu')">🌯<br>Wraps</div>
+                <div class="category" onclick="switchPage('menu')">🍜<br>Chinese</div>
+                <div class="category" onclick="switchPage('menu')">🍲<br>South Indian</div>
+                <div class="category" onclick="switchPage('menu')">🥤<br>Beverages</div>
+                <div class="category" onclick="switchPage('menu')">🍰<br>Desserts</div>
             </div>
 
-            <div class="section-title">
-                Popular Campus Outlets
-                <span style="font-size: 0.8rem; color: var(--primary); cursor: pointer;" onclick="switchPage('outlets')">View All →</span>
+            <div class="title-row">
+                <h2>Popular Campus Outlets</h2>
+                <span onclick="switchPage('outlets')">View All →</span>
             </div>
-            <div class="outlets-grid" id="homeOutletsGrid"></div>
+
+            <div class="outlets" id="homeOutlets"></div>
         </div>
 
-        <!-- 2. ALL OUTLETS PAGE -->
-        <div id="page-outlets" class="page-view">
-            <h2 style="font-family: var(--font-title); font-size: 1.8rem; margin-bottom: 6px;">Campus Outlets</h2>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 25px;">Explore operating kitchens and dining counters across campus hubs.</p>
-            <div class="outlets-grid" id="allOutletsGrid"></div>
+
+        <!-- OUTLETS PAGE -->
+        <div id="page-outlets" class="page">
+            <h2>Campus Outlets</h2>
+            <p class="muted">Explore food outlets available on campus.</p>
+            <div class="outlets" id="allOutlets"></div>
         </div>
 
-        <!-- 3. RESTAURANT MENU PAGE -->
-        <div id="page-menu" class="page-view">
-            <div style="margin-bottom: 20px;">
-                <h2 style="font-family: var(--font-title); font-size: 1.8rem;" id="menuOutletTitle">Burger Singh</h2>
-                <p style="color: var(--text-muted); font-size: 0.85rem;">Indian Fusion Burgers • 15-20 mins delivery</p>
+
+        <!-- MENU PAGE -->
+        <div id="page-menu" class="page">
+            <div class="menu-heading">
+                <h2 id="menuTitle">Burger Singh</h2>
+                <p class="muted">Indian Fusion Burgers • 15-20 mins delivery</p>
             </div>
 
             <div class="menu-layout">
-                <div class="menu-nav-sidebar">
-                    <div class="menu-nav-item active">Burgers & Combos</div>
-                    <div class="menu-nav-item">Sides</div>
-                    <div class="menu-nav-item">Beverages</div>
+
+                <div class="menu-side">
+                    <div class="side-item active">Burgers & Combos</div>
+                    <div class="side-item">Sides</div>
+                    <div class="side-item">Beverages</div>
                 </div>
 
-                <div>
-                    <div class="menu-grid" id="menuItemsGrid"></div>
+                <div class="food-list" id="foodList"></div>
+
+                <div class="cart">
+                    <h3>Basket Preview</h3>
+                    <div id="cartItems"></div>
+
+                    <div class="summary">
+                        <div><span>Subtotal</span><span id="subtotal">₹0</span></div>
+                        <div><span>Taxes & Delivery</span><span>₹45</span></div>
+                        <div class="total"><span>Total</span><span id="total">₹0</span></div>
+                    </div>
+
+                    <button class="button full" onclick="switchPage('live-group')">
+                        View Live Group Cart
+                    </button>
                 </div>
 
-                <div class="cart-sidebar">
-                    <h4 style="margin-bottom: 12px; font-size: 0.95rem;">Basket Preview</h4>
-                    <div id="cartSidebarItems"></div>
-                    <div class="cart-summary-line"><span>Subtotal</span><span id="previewSubtotal">₹0</span></div>
-                    <div class="cart-summary-line"><span>Taxes & Delivery</span><span id="previewTaxes">₹45</span></div>
-                    <div class="cart-summary-line total"><span>Total</span><span id="previewTotal">₹0</span></div>
-                    <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="switchPage('live-group')">View Live Group Cart</button>
-                </div>
             </div>
         </div>
 
-        <!-- 4. LIVE GROUP CART -->
-        <div id="page-live-group" class="page-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+        <!-- GROUP ORDER PAGE -->
+        <div id="page-live-group" class="page">
+
+            <div class="group-heading">
                 <div>
-                    <h2 style="font-family: var(--font-title); font-size: 1.6rem;">CampusBites Group Cart <span class="badge-red" style="margin-left: 8px;">Live Group Order</span></h2>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">Ordering from <strong>Burger Singh</strong> • Add items from the menu and the cart updates automatically.</p>
+                    <h2>Hostel 4 Lunch Squad</h2>
+                    <p class="muted">Ordering from <b>Burger Singh</b> • Shared cart is active</p>
                 </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <span style="font-size: 0.85rem; background: var(--bg-card); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color);">Code: <strong id="groupCodeDisplay">CB-XXXX</strong></span>
-                    <button class="btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="addFriendPrompt()">+ Invite Friend</button>
-                    <button class="btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="startNewGroup()">New Group</button>
+
+                <div>
+                    <span class="code">Code: <b>CB-7X2W</b></span>
+                    <button class="outline-button" onclick="addFriend()">+ Invite Friend</button>
                 </div>
             </div>
 
-            <div class="group-squad-grid" id="squadCardsContainer"></div>
+            <div class="squad" id="squad"></div>
 
-            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <div class="grand-total">
                 <div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Combined Basket Total (<span id="totalItemCount">0</span> items)</div>
-                    <div style="font-size: 1.4rem; font-weight: 700; color: var(--primary);" id="liveGrandTotal">₹0</div>
+                    <p class="muted">Combined Basket Total</p>
+                    <h2 id="grandTotal">₹0</h2>
                 </div>
-                <button class="btn-primary" style="padding: 12px 28px;" onclick="switchPage('bill-split')">Place Combined Order →</button>
+
+                <button class="button" onclick="switchPage('bill-split')">
+                    Place Combined Order →
+                </button>
             </div>
+
         </div>
 
-        <!-- 5. GROUP BILL SPLIT SUMMARY -->
-        <div id="page-bill-split" class="page-view">
+
+        <!-- BILL SPLIT PAGE -->
+        <div id="page-bill-split" class="page">
+
             <div class="split-banner">
                 <div>
-                    <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Order Assembled Successfully</div>
-                    <h3 style="font-size: 1.3rem; margin-top: 2px;">Group Bill Split Summary</h3>
-                    <p style="font-size: 0.8rem; opacity: 0.9;">Order total: <strong id="splitBannerTotal">₹0</strong> paid via Host. Friends can now settle their share.</p>
+                    <p>ORDER ASSEMBLED SUCCESSFULLY</p>
+                    <h2>Group Bill Split Summary</h2>
+                    <p>Order total: <b id="splitTotal">₹0</b></p>
                 </div>
-                <button class="btn-outline" style="background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.3); color: white;" onclick="window.print()"><i class="fa-solid fa-download"></i> Download Split PDF</button>
+
+                <button class="outline-button" onclick="window.print()">Print / Save</button>
             </div>
 
-            <div class="split-bar-container">
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-                    <strong>Split Distribution</strong>
-                    <span style="color: var(--text-muted);">Code: <span id="splitGroupCode">CB-XXXX</span> • Burger Singh</span>
-                </div>
-                <div class="multi-progress-bar" id="multiProgressBar"></div>
-                <div style="display: flex; gap: 20px; font-size: 0.75rem; flex-wrap: wrap;" id="splitLegend"></div>
+            <div class="split-box">
+                <h3>Split Distribution</h3>
+                <div class="progress" id="progress"></div>
+                <div id="legend"></div>
             </div>
 
-            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 25px;">
-                <table class="split-table">
-                    <thead>
-                        <tr>
-                            <th>Member</th>
-                            <th>Items Assigned</th>
-                            <th>Share %</th>
-                            <th>Total Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody id="splitTableBody"></tbody>
-                </table>
+            <div class="bill-table" id="billTable"></div>
+
+            <div class="right">
+                <button class="button" onclick="switchPage('order-confirmed')">
+                    Confirm & Pay Now
+                </button>
             </div>
 
-            <div style="text-align: right;">
-                <button class="btn-primary" style="padding: 12px 30px;" onclick="switchPage('order-confirmed')">Confirm & Pay Now</button>
-            </div>
         </div>
 
-        <!-- 6. ORDER CONFIRMED SCREEN -->
-        <div id="page-order-confirmed" class="page-view">
-            <div class="status-box">
-                <i class="fa-solid fa-circle-check" style="font-size: 3rem; color: var(--success); margin-bottom: 12px;"></i>
-                <h2 style="font-family: var(--font-title); font-size: 1.8rem;">Order Confirmed! Preparing Delicious Bites.</h2>
-                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Order ID: #CB-829107 • Estimated Delivery: 15-20 mins</p>
-                
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-                    <button class="btn-primary" style="font-size: 0.8rem;"><i class="fa-solid fa-location-dot"></i> Track Live Location</button>
-                    <button class="btn-outline" style="font-size: 0.8rem;" onclick="switchPage('home')">Order Again</button>
+
+        <!-- ORDER CONFIRMED PAGE -->
+        <div id="page-order-confirmed" class="page">
+
+            <div class="confirmed">
+                <div class="check">✓</div>
+                <h2>Order Confirmed!</h2>
+                <p class="muted">Order ID: #CB-829107 • Estimated Delivery: 15-20 mins</p>
+
+                <div class="buttons center">
+                    <button class="button">📍 Track Live Location</button>
+                    <button class="outline-button" onclick="switchPage('home')">Order Again</button>
                 </div>
 
-                <div class="status-timeline">
-                    <div class="timeline-step active">
-                        <strong>Order Confirmed</strong>
-                        <div style="color: var(--text-muted);">Restaurant Burger Singh has accepted your squad order.</div>
+                <div class="timeline">
+                    <div>
+                        <b>Order Confirmed</b>
+                        <p class="muted">Restaurant has accepted your group order.</p>
                     </div>
-                    <div class="timeline-step active">
-                        <strong>Preparing Your Cravings</strong>
-                        <div style="color: var(--text-muted);">Kitchen is assembling your burgers & brewing saffron cold coffee.</div>
+
+                    <div>
+                        <b>Preparing Your Food</b>
+                        <p class="muted">Kitchen is preparing your order.</p>
                     </div>
-                    <div class="timeline-step">
-                        <strong>Out for Delivery</strong>
-                        <div style="color: var(--text-muted);">Delivery partner will pick up one neat packet for Hostel 4.</div>
+
+                    <div>
+                        <b>Out for Delivery</b>
+                        <p class="muted">Delivery partner will bring your order.</p>
                     </div>
                 </div>
             </div>
+
         </div>
 
     </div>
 
+
     <!-- FOOTER -->
-    <footer class="footer">
+    <div class="footer">
         <div>
-            <div class="logo" style="margin-bottom: 10px;">
-                <div class="logo-icon"><i class="fa-solid fa-utensils"></i></div> CampusBites
-            </div>
-            <p style="max-width: 280px; line-height: 1.4;">The ultimate campus companion. Bringing students, food, and hassle-free bill-splitting together in one unified platform.</p>
+            <h2>🍔 CampusBites</h2>
+            <p>The ultimate campus food companion with easy group ordering and bill splitting.</p>
         </div>
-        <div class="footer-col">
-            <h5>Quick Links</h5>
-            <ul>
-                <li onclick="switchPage('outlets')">Browse Outlets</li>
-                <li onclick="switchPage('live-group')">Start Group Order</li>
-                <li onclick="switchPage('home')">Order History</li>
-            </ul>
+
+        <div>
+            <h3>Quick Links</h3>
+            <p onclick="switchPage('outlets')">Browse Outlets</p>
+            <p onclick="switchPage('live-group')">Start Group Order</p>
+            <p onclick="switchPage('home')">Order History</p>
         </div>
-        <div class="footer-col">
-            <h5>For Outlets</h5>
-            <ul>
-                <li>Partner with Us</li>
-                <li>Dashboard Portal</li>
-            </ul>
+
+        <div>
+            <h3>For Outlets</h3>
+            <p>Partner with Us</p>
+            <p>Dashboard Portal</p>
         </div>
-        <div class="footer-col">
-            <h5>Support</h5>
-            <ul>
-                <li>Help Center / FAQs</li>
-                <li>Refund Policies</li>
-                <li>Campus Support</li>
-            </ul>
+
+        <div>
+            <h3>Support</h3>
+            <p>Help Center / FAQs</p>
+            <p>Refund Policies</p>
+            <p>Campus Support</p>
         </div>
-    </footer>
+    </div>
 
-    <!-- JavaScript Logic -->
-    <script>
 
-        const outlets = [
-            { id: 'b-singh', name: 'Burger Singh', rating: 4.4, tags: 'American, Fast Food', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80' },
-            { id: 'k-junc', name: 'Kathi Junction', rating: 4.2, tags: 'North Indian, Rolls', img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80' },
-            { id: 'm-point', name: 'Maggi Point', rating: 4.0, tags: 'Maggi, Fast Food', img: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80' },
-            { id: 'greenox', name: 'Greenox', rating: 4.1, tags: 'Healthy, Bowls, Smoothies', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80' }
-        ];
+<script>
 
-        const menuItems = [
-            { id: 'm1', name: 'Spicy Amritsari Burger', price: 189, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80' },
-            { id: 'm2', name: 'Saffron Cold Coffee', price: 120, img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=300&q=80' },
-            { id: 'm3', name: 'Churkiy Paner Burger', price: 169, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=300&q=80' },
-            { id: 'm4', name: 'Malabar Fries', price: 99, img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80' },
-            { id: 'm5', name: 'Classic Mint Ice Tea', price: 79, img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80' },
-            { id: 'm6', name: 'Junior Burger', price: 90, img: 'https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=300&q=80' }
-        ];
+    // Food outlets
+    var outlets = [
+        {
+            name: "Burger Singh",
+            rating: 4.4,
+            tags: "American, Fast Food",
+            image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Kathi Junction",
+            rating: 4.2,
+            tags: "North Indian, Rolls",
+            image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Maggi Point",
+            rating: 4.0,
+            tags: "Maggi, Fast Food",
+            image: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Greenex",
+            rating: 4.1,
+            tags: "Healthy, Bowls, Smoothies",
+            image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80"
+        }
+    ];
 
-        // LIVE GROUP DATA
-        // Starts empty. Users add their own items through the menu.
-        let squadData = {};
-        let userColors = {};
-        let currentUser = localStorage.getItem('cb-current-user') || '';
-        let groupCode = localStorage.getItem('cb-group-code') || generateGroupCode();
-        const TAXES_DELIVERY = 45;
 
-        function generateGroupCode() {
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let code = 'CB-';
-            for (let i = 0; i < 4; i++) {
-                code += chars[Math.floor(Math.random() * chars.length)];
-            }
-            localStorage.setItem('cb-group-code', code);
-            return code;
+    // Menu items
+    var menuItems = [
+        {
+            id: "m1",
+            name: "Spicy Amritsari Burger",
+            price: 189,
+            image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            id: "m2",
+            name: "Saffron Cold Coffee",
+            price: 120,
+            image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            id: "m3",
+            name: "Paneer Burger",
+            price: 169,
+            image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            id: "m4",
+            name: "Malabar Fries",
+            price: 99,
+            image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            id: "m5",
+            name: "Classic Mint Ice Tea",
+            price: 79,
+            image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            id: "m6",
+            name: "Junior Burger",
+            price: 90,
+            image: "https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=300&q=80"
+        }
+    ];
+
+
+    // Group members and their food
+    var group = {
+        Rahul: [
+            {name: "Spicy Amritsari Burger", price: 189, qty: 2},
+            {name: "Saffron Cold Coffee", price: 120, qty: 1}
+        ],
+
+        Aman: [
+            {name: "Malabar Fries", price: 99, qty: 1},
+            {name: "Paneer Burger", price: 169, qty: 1}
+        ],
+
+        Sneha: [
+            {name: "Classic Mint Ice Tea", price: 79, qty: 2},
+            {name: "Junior Burger", price: 90, qty: 1}
+        ],
+
+        Priyanush: [
+            {name: "Saffron Cold Coffee", price: 120, qty: 1}
+        ]
+    };
+
+
+    var colors = {
+        Rahul: "#E53935",
+        Aman: "#FB8C00",
+        Sneha: "#00ACC1",
+        Priyanush: "#8E24AA"
+    };
+
+    var delivery = 45;
+
+
+    // Run these functions when page opens
+    window.onload = function() {
+        showOutlets();
+        showMenu();
+        updateCart();
+        showGroup();
+    };
+
+
+    // Change pages
+    function switchPage(pageName, navButton) {
+
+        var pages = document.getElementsByClassName("page");
+
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove("active");
         }
 
-        function getUserColor(user) {
-            if (!userColors[user]) {
-                const colors = ['#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#f59e0b', '#ec4899'];
-                userColors[user] = colors[Object.keys(userColors).length % colors.length];
+        document.getElementById("page-" + pageName).classList.add("active");
+
+        if (navButton) {
+            var links = document.getElementsByClassName("nav-link");
+
+            for (var j = 0; j < links.length; j++) {
+                links[j].classList.remove("active");
             }
-            return userColors[user];
+
+            navButton.classList.add("active");
         }
 
-        function getCurrentUser() {
-            if (!currentUser) {
-                const name = prompt("Enter your name to start ordering:");
-                currentUser = name && name.trim() ? name.trim() : 'You';
-                localStorage.setItem('cb-current-user', currentUser);
-            }
+        window.scrollTo(0, 0);
 
-            if (!squadData[currentUser]) {
-                squadData[currentUser] = [];
-            }
-
-            getUserColor(currentUser);
-            return currentUser;
+        if (pageName == "live-group") {
+            showGroup();
         }
 
-        // Theme Switcher Logic
-        function initTheme() {
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const savedTheme = localStorage.getItem('cb-theme') || (systemPrefersDark ? 'dark' : 'light');
-            setTheme(savedTheme);
+        if (pageName == "bill-split") {
+            showBill();
+        }
+    }
 
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                if (!localStorage.getItem('cb-theme')) {
-                    setTheme(e.matches ? 'dark' : 'light');
-                }
+
+    // Show food outlets
+    function showOutlets() {
+
+        var text = "";
+
+        for (var i = 0; i < outlets.length; i++) {
+
+            text +=
+                '<div class="outlet-card" onclick="switchPage(\'menu\')">' +
+                    '<img src="' + outlets[i].image + '">' +
+                    '<div class="outlet-info">' +
+                        '<div class="outlet-name">' +
+                            '<b>' + outlets[i].name + '</b>' +
+                            '<span>⭐ ' + outlets[i].rating + '</span>' +
+                        '</div>' +
+                        '<p>' + outlets[i].tags + '</p>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        document.getElementById("homeOutlets").innerHTML = text;
+        document.getElementById("allOutlets").innerHTML = text;
+    }
+
+
+    // Show menu items
+    function showMenu() {
+
+        var text = "";
+
+        for (var i = 0; i < menuItems.length; i++) {
+
+            text +=
+                '<div class="food-card">' +
+                    '<img src="' + menuItems[i].image + '">' +
+                    '<div class="food-info">' +
+                        '<h3>' + menuItems[i].name + '</h3>' +
+                        '<div class="food-bottom">' +
+                            '<b>₹' + menuItems[i].price + '</b>' +
+                            '<button class="add-button" onclick="addFood(\'' + menuItems[i].id + '\')">+ Add</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        document.getElementById("foodList").innerHTML = text;
+    }
+
+
+    // Add food to Rahul's cart
+    function addFood(id) {
+
+        var item;
+
+        for (var i = 0; i < menuItems.length; i++) {
+            if (menuItems[i].id == id) {
+                item = menuItems[i];
+            }
+        }
+
+        var found = false;
+
+        for (var j = 0; j < group.Rahul.length; j++) {
+
+            if (group.Rahul[j].name == item.name) {
+                group.Rahul[j].qty++;
+                found = true;
+            }
+        }
+
+        if (found == false) {
+            group.Rahul.push({
+                name: item.name,
+                price: item.price,
+                qty: 1
             });
         }
 
-        function setTheme(theme) {
-            document.body.setAttribute('data-theme', theme);
-            localStorage.setItem('cb-theme', theme);
-            const icon = document.getElementById('themeIcon');
-            const label = document.getElementById('themeLabel');
+        updateCart();
+        showGroup();
+    }
 
-            if (theme === 'light') {
-                icon.className = 'fa-solid fa-sun';
-                label.innerText = 'Light';
+
+    // Update basket
+    function updateCart() {
+
+        var text = "";
+        var subtotal = 0;
+
+        for (var user in group) {
+
+            for (var i = 0; i < group[user].length; i++) {
+
+                var item = group[user][i];
+                var amount = item.price * item.qty;
+
+                subtotal += amount;
+
+                text +=
+                    '<div class="cart-item">' +
+                        '<div>' +
+                            '<b>' + item.name + ' x' + item.qty + '</b>' +
+                            '<p>For ' + user + '</p>' +
+                        '</div>' +
+                        '<b>₹' + amount + '</b>' +
+                    '</div>';
+            }
+        }
+
+        if (text == "") {
+            text = "<p class='muted'>Cart is empty.</p>";
+        }
+
+        document.getElementById("cartItems").innerHTML = text;
+        document.getElementById("subtotal").innerHTML = "₹" + subtotal;
+
+        if (subtotal > 0) {
+            document.getElementById("total").innerHTML = "₹" + (subtotal + delivery);
+        } else {
+            document.getElementById("total").innerHTML = "₹0";
+        }
+    }
+
+
+    // Show group members
+    function showGroup() {
+
+        var text = "";
+        var grand = 0;
+
+        for (var user in group) {
+
+            var userTotal = 0;
+            var items = "";
+
+            for (var i = 0; i < group[user].length; i++) {
+
+                var item = group[user][i];
+                var cost = item.price * item.qty;
+
+                userTotal += cost;
+
+                items +=
+                    '<div class="squad-item">' +
+                        '<span>' + item.name + ' x' + item.qty + '</span>' +
+                        '<b>₹' + cost + '</b>' +
+                    '</div>';
+            }
+
+            grand += userTotal;
+
+            text +=
+                '<div class="squad-card">' +
+                    '<div class="user">' +
+                        '<span class="avatar" style="background:' + (colors[user] || "#777") + '">' +
+                            user.charAt(0) +
+                        '</span>' +
+                        '<b>' + user + '</b>' +
+                    '</div>' +
+                    items +
+                    '<div class="user-total">' +
+                        '<span>Subtotal</span>' +
+                        '<b>₹' + userTotal + '</b>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        document.getElementById("squad").innerHTML = text;
+        document.getElementById("grandTotal").innerHTML = "₹" + (grand + delivery);
+    }
+
+
+    // Add a new friend
+    function addFriend() {
+
+        var name = prompt("Enter friend's name:");
+
+        if (name && !group[name]) {
+
+            group[name] = [];
+            colors[name] = "#777";
+
+            showGroup();
+        }
+    }
+
+
+    // Show bill split
+    function showBill() {
+
+        var groupSubtotal = 0;
+        var totals = {};
+        var billText = "";
+
+        for (var user in group) {
+
+            var userTotal = 0;
+
+            for (var i = 0; i < group[user].length; i++) {
+                userTotal += group[user][i].price * group[user][i].qty;
+            }
+
+            totals[user] = userTotal;
+            groupSubtotal += userTotal;
+        }
+
+        var grandTotal = groupSubtotal + delivery;
+
+        document.getElementById("splitTotal").innerHTML = "₹" + grandTotal;
+
+        var progress = "";
+        var legend = "";
+
+        for (var person in group) {
+
+            var amount = totals[person];
+
+            if (groupSubtotal > 0) {
+                var percent = Math.round((amount / groupSubtotal) * 100);
             } else {
-                icon.className = 'fa-solid fa-moon';
-                label.innerText = 'Dark';
-            }
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme');
-            setTheme(currentTheme === 'light' ? 'dark' : 'light');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            renderOutlets();
-            renderMenuItems();
-            updateGroupHeader();
-            updateUI();
-        });
-
-        function switchPage(pageId, navEl = null) {
-            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
-            document.getElementById(`page-${pageId}`).classList.add('active');
-
-            if (navEl) {
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                navEl.classList.add('active');
+                var percent = 0;
             }
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            progress +=
+                '<div style="width:' + percent + '%; background:' +
+                (colors[person] || "#777") + '"></div>';
 
-            if (pageId === 'bill-split') renderBillSplit();
-            if (pageId === 'live-group') renderSquadGroup();
-            if (pageId === 'menu') updateUI();
-        }
+            legend +=
+                '<span>● ' + person + ': ' + percent + '%</span>';
 
-        function renderOutlets() {
-            const html = outlets.map(o => `
-                <div class="outlet-card" onclick="switchPage('menu')">
-                    <div class="outlet-img" style="background-image: url('${o.img}')"></div>
-                    <div class="outlet-body">
-                        <div class="outlet-head">
-                            <strong style="font-size:0.95rem;">${o.name}</strong>
-                            <span class="outlet-rating"><i class="fa-solid fa-star" style="color:#FFD700;"></i> ${o.rating}</span>
-                        </div>
-                        <div style="font-size:0.75rem; color:var(--text-muted);">${o.tags}</div>
-                    </div>
-                </div>
-            `).join('');
+            var items = "";
 
-            document.getElementById('homeOutletsGrid').innerHTML = html;
-            document.getElementById('allOutletsGrid').innerHTML = html;
-        }
+            for (var j = 0; j < group[person].length; j++) {
+                items += group[person][j].name + " x" + group[person][j].qty;
 
-        function renderMenuItems() {
-            document.getElementById('menuItemsGrid').innerHTML = menuItems.map(item => `
-                <div class="food-card">
-                    <div class="food-img" style="background-image: url('${item.img}')"></div>
-                    <div class="food-details">
-                        <div class="food-title">${item.name}</div>
-                        <div class="food-footer">
-                            <span class="food-price">₹${item.price}</span>
-                            <button class="btn-add-item" onclick="addItemToCurrentUser('${item.id}')">+ Add</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addItemToCurrentUser(itemId) {
-            const user = getCurrentUser();
-            addItemToUser(user, itemId);
-        }
-
-        function addItemToUser(user, itemId) {
-            const item = menuItems.find(m => m.id === itemId);
-            if (!item) return;
-
-            if (!squadData[user]) {
-                squadData[user] = [];
-                getUserColor(user);
-            }
-
-            const existing = squadData[user].find(i => i.id === itemId);
-
-            if (existing) {
-                existing.qty++;
-            } else {
-                squadData[user].push({
-                    id: item.id,
-                    name: item.name,
-                    price: item.price,
-                    qty: 1
-                });
-            }
-
-            updateUI();
-            renderSquadGroup();
-        }
-
-        function changeItemQty(user, itemId, change) {
-            if (!squadData[user]) return;
-
-            const item = squadData[user].find(i => i.id === itemId);
-            if (!item) return;
-
-            item.qty += change;
-
-            if (item.qty <= 0) {
-                squadData[user] = squadData[user].filter(i => i.id !== itemId);
-            }
-
-            updateUI();
-            renderSquadGroup();
-        }
-
-        function removeItem(user, itemId) {
-            if (!squadData[user]) return;
-
-            squadData[user] = squadData[user].filter(i => i.id !== itemId);
-
-            updateUI();
-            renderSquadGroup();
-        }
-
-        function addFriendPrompt() {
-            const name = prompt("Enter friend's name:");
-
-            if (name && name.trim()) {
-                const cleanName = name.trim();
-
-                if (!squadData[cleanName]) {
-                    squadData[cleanName] = [];
-                    getUserColor(cleanName);
-                    renderSquadGroup();
-                } else {
-                    alert("This member is already in the group.");
+                if (j < group[person].length - 1) {
+                    items += ", ";
                 }
             }
+
+            billText +=
+                '<div class="bill-row">' +
+                    '<b>' + person + '</b>' +
+                    '<span>' + items + '</span>' +
+                    '<span>' + percent + '%</span>' +
+                    '<b>₹' + amount + '</b>' +
+                '</div>';
         }
 
-        function updateGroupHeader() {
-            const codeElement = document.getElementById('groupCodeDisplay');
-            if (codeElement) codeElement.innerText = groupCode;
-            const splitCode = document.getElementById('splitGroupCode');
-            if (splitCode) splitCode.innerText = groupCode;
+        document.getElementById("progress").innerHTML = progress;
+        document.getElementById("legend").innerHTML = legend;
+        document.getElementById("billTable").innerHTML =
+            '<div class="bill-head">' +
+                '<b>Member</b><b>Items</b><b>Share</b><b>Amount</b>' +
+            '</div>' + billText;
+    }
+
+
+    // Dark and light mode
+    function toggleTheme() {
+
+        if (document.body.className == "light") {
+
+            document.body.className = "dark";
+            document.getElementById("themeButton").innerHTML = "🌙 Dark";
+
+        } else {
+
+            document.body.className = "light";
+            document.getElementById("themeButton").innerHTML = "☀️ Light";
         }
+    }
 
-        function updateUI() {
-            let totalItemCount = 0;
-            let netSubtotal = 0;
-            let sidebarHtml = '';
+</script>
 
-            Object.keys(squadData).forEach(user => {
-                squadData[user].forEach(item => {
-                    totalItemCount += item.qty;
-                    netSubtotal += item.price * item.qty;
-
-                    sidebarHtml += `
-                        <div class="cart-item">
-                            <div class="cart-item-info">
-                                <h5>${item.name} x${item.qty}</h5>
-                                <span class="cart-item-user">For ${user}</span>
-                                <div style="display:flex; gap:5px; margin-top:5px;">
-                                    <button onclick="changeItemQty('${user}', '${item.id}', -1)">−</button>
-                                    <button onclick="changeItemQty('${user}', '${item.id}', 1)">+</button>
-                                    <button onclick="removeItem('${user}', '${item.id}')">Remove</button>
-                                </div>
-                            </div>
-                            <strong>₹${item.price * item.qty}</strong>
-                        </div>
-                    `;
-                });
-            });
-
-            document.getElementById('cartSidebarItems').innerHTML =
-                sidebarHtml ||
-                '<div style="font-size:0.8rem; color:var(--text-muted); padding:10px 0;">Cart is empty. Add items from the menu.</div>';
-
-            document.getElementById('previewSubtotal').innerText = `₹${netSubtotal}`;
-            document.getElementById('previewTaxes').innerText = `₹${netSubtotal > 0 ? TAXES_DELIVERY : 0}`;
-            document.getElementById('previewTotal').innerText =
-                `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
-
-            document.getElementById('liveGrandTotal').innerText =
-                `₹${netSubtotal > 0 ? netSubtotal + TAXES_DELIVERY : 0}`;
-
-            document.getElementById('totalItemCount').innerText = totalItemCount;
-        }
-
-        function renderSquadGroup() {
-            updateUI();
-
-            const container = document.getElementById('squadCardsContainer');
-            container.innerHTML = '';
-
-            const users = Object.keys(squadData);
-
-            if (users.length === 0) {
-                container.innerHTML = `
-                    <div style="padding:30px; text-align:center; color:var(--text-muted);">
-                        <i class="fa-solid fa-users" style="font-size:2rem; margin-bottom:10px;"></i>
-                        <p>No members yet. Start by adding your food from the Menu.</p>
-                        <button class="btn-primary" onclick="switchPage('menu')">Browse Menu</button>
-                    </div>
-                `;
-                return;
-            }
-
-            users.forEach(user => {
-                let userSubtotal = 0;
-
-                const itemsHtml = squadData[user].map(item => {
-                    const cost = item.price * item.qty;
-                    userSubtotal += cost;
-
-                    return `
-                        <div class="squad-item-row">
-                            <span>${item.name} (x${item.qty})</span>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <button onclick="changeItemQty('${user}', '${item.id}', -1)">−</button>
-                                <strong>₹${cost}</strong>
-                                <button onclick="changeItemQty('${user}', '${item.id}', 1)">+</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                container.innerHTML += `
-                    <div class="squad-card">
-                        <div class="squad-user-header">
-                            <div class="user-avatar" style="background: ${getUserColor(user)};">${user[0].toUpperCase()}</div>
-                            <strong>${user}</strong>
-                        </div>
-
-                        ${itemsHtml || '<div style="font-size:0.75rem; color:var(--text-muted);">No items selected yet.</div>'}
-
-                        <div class="squad-user-total">
-                            <span>Subtotal</span>
-                            <span>₹${userSubtotal}</span>
-                        </div>
-
-                        <button class="btn-outline"
-                                style="width:100%; margin-top:10px; font-size:0.75rem;"
-                                onclick="switchPage('menu')">
-                            + Add Food
-                        </button>
-                    </div>
-                `;
-            });
-        }
-
-        function renderBillSplit() {
-            let groupSubtotal = 0;
-            const userSubtotals = {};
-
-            Object.keys(squadData).forEach(user => {
-                userSubtotals[user] = squadData[user].reduce(
-                    (acc, item) => acc + (item.price * item.qty), 0
-                );
-                groupSubtotal += userSubtotals[user];
-            });
-
-            const grandTotal = groupSubtotal > 0 ? groupSubtotal + TAXES_DELIVERY : 0;
-
-            document.getElementById('splitBannerTotal').innerText = `₹${grandTotal}`;
-
-            const progressBar = document.getElementById('multiProgressBar');
-            const legend = document.getElementById('splitLegend');
-            const tableBody = document.getElementById('splitTableBody');
-
-            progressBar.innerHTML = '';
-            legend.innerHTML = '';
-            tableBody.innerHTML = '';
-
-            if (groupSubtotal === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="4" style="text-align:center; padding:25px; color:var(--text-muted);">
-                            No items in the group cart yet.
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            Object.keys(squadData).forEach(user => {
-                const personSub = userSubtotals[user];
-
-                // Taxes/delivery are divided proportionally according to each person's food subtotal.
-                const personTax = (personSub / groupSubtotal) * TAXES_DELIVERY;
-                const personTotal = Math.round(personSub + personTax);
-                const pct = Math.round((personTotal / grandTotal) * 100);
-                const color = getUserColor(user);
-
-                progressBar.innerHTML += `
-                    <div class="bar-segment"
-                         style="width:${pct}%; background:${color};"></div>
-                `;
-
-                legend.innerHTML += `
-                    <div style="display:flex; align-items:center; gap:5px;">
-                        <span style="width:8px; height:8px; border-radius:50%; background:${color};"></span>
-                        ${user}: ${pct}%
-                    </div>
-                `;
-
-                const itemsSummary = squadData[user]
-                    .map(i => `${i.name} (x${i.qty})`)
-                    .join(', ');
-
-                tableBody.innerHTML += `
-                    <tr>
-                        <td>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <div class="user-avatar"
-                                     style="background:${color}; width:24px; height:24px; font-size:0.7rem;">
-                                    ${user[0].toUpperCase()}
-                                </div>
-                                <strong>${user}</strong>
-                            </div>
-                        </td>
-                        <td style="color:var(--text-muted);">${itemsSummary || 'None'}</td>
-                        <td>${pct}%</td>
-                        <td><strong>₹${personTotal}</strong></td>
-                    </tr>
-                `;
-            });
-        }
-
-        // Start a fresh group order.
-        function startNewGroup() {
-            if (!confirm("Start a new group order? The current cart will be cleared.")) return;
-
-            squadData = {};
-            userColors = {};
-            currentUser = '';
-            localStorage.removeItem('cb-current-user');
-
-            groupCode = generateGroupCode();
-
-            updateGroupHeader();
-            updateUI();
-            renderSquadGroup();
-            switchPage('menu');
-        }
-
-    </script>
 </body>
 </html>
