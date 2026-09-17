@@ -1,11 +1,11 @@
-# CampusBites 🍔⚡
+# CampusBites 🍔
 
 > **One Group. One Cart. Everyone Orders.**  
 > A lightweight, responsive web application designed for university students to order food together and split bills seamlessly without passing a single phone around.
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 * **Squad Group Ordering:** Multiple users can add items simultaneously to a single shared squad cart (`CB-7X2W`).
 * **Automated Bill Splitter:** Calculates proportional payment shares, individual subtotals, and taxes per group member.
@@ -15,7 +15,7 @@
 
 ---
 
-## 🛠️ Built With
+##  Built With
 
 * **HTML5** – Semantic layout structures
 * **CSS3** – Custom properties (variables), Flexbox, CSS Grid, and adaptive theme switching
