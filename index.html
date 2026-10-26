@@ -1,240 +1,507 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CampusBites</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <div class="logo" onclick="switchPage('home')">🍔 CampusBites</div>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="#home" class="logo">🍔 CampusBites</a>
 
         <div class="nav-links">
-            <div class="nav-link active" onclick="switchPage('home', this)">Home</div>
-            <div class="nav-link" onclick="switchPage('outlets', this)">Outlets</div>
-            <div class="nav-link" onclick="switchPage('live-group', this)">Group Order</div>
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#outlets" class="nav-link">Outlets</a>
+            <a href="#menu" class="nav-link">Menu</a>
+            <a href="#group-order" class="nav-link">Group Order</a>
         </div>
 
         <div class="nav-buttons">
-            <button class="theme-button" onclick="toggleTheme()" id="themeButton">🌙 Dark</button>
-            <input class="search" type="text" placeholder="Search outlets...">
-            <button class="button" onclick="switchPage('live-group')">Group Cart</button>
+            <input class="search" id="searchBox"
+                   type="text" placeholder="Search outlets...">
+            <a href="#group-order" class="button">Group Cart</a>
         </div>
-    </div>
+    </nav>
 
-    <div class="container">
+    <main>
 
         <!-- HOME PAGE -->
-        <div id="page-home" class="page active">
+        <section id="home" class="page">
+            <div class="container">
 
-            <div class="hero">
-                <div class="badge">Group Ordering Activated</div>
-                <h1>One Group. One Cart.<br>Everyone Orders.</h1>
-                <p>
-                    Create a cart, share your group code, select food with friends,
-                    and split the bill easily.
-                </p>
+                <div class="hero">
+                    <span class="badge">Group Ordering Made Easy</span>
 
-                <div class="buttons">
-                    <button class="button" onclick="switchPage('live-group')">Start Group Order</button>
-                    <button class="outline-button" onclick="switchPage('outlets')">Order Separately</button>
+                    <h1>One Group. One Cart.<br>Everyone Orders.</h1>
+
+                    <p>
+                        Create a group order, add food for your friends,
+                        and calculate everyone's share in one place.
+                    </p>
+
+                    <div class="buttons">
+                        <a href="#group-order" class="button">
+                            Start Group Order
+                        </a>
+
+                        <a href="#menu" class="outline-button"
+                           id="startSeparateOrder">
+                            Order Separately
+                        </a>
+                    </div>
+                </div>
+
+                <h2>What's on your mind?</h2>
+
+                <div class="categories">
+                    <a href="#menu" class="category">🍔<br>Burgers</a>
+                    <a href="#menu" class="category">🌯<br>Wraps</a>
+                    <a href="#menu" class="category">🥤<br>Beverages</a>
+                    <a href="#menu" class="category">🍟<br>Sides</a>
+                </div>
+
+                <div class="title-row">
+                    <h2>Popular Campus Outlets</h2>
+                    <a href="#outlets">View All →</a>
+                </div>
+
+                <div class="outlets">
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
+                             alt="Burger">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Burger Singh</b>
+                                <span>⭐ 4.4</span>
+                            </div>
+                            <p>American, Fast Food</p>
+                        </div>
+                    </article>
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80"
+                             alt="Rolls">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Kathi Junction</b>
+                                <span>⭐ 4.2</span>
+                            </div>
+                            <p>North Indian, Rolls</p>
+                        </div>
+                    </article>
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
+                             alt="Maggi">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Maggi Point</b>
+                                <span>⭐ 4.0</span>
+                            </div>
+                            <p>Maggi, Fast Food</p>
+                        </div>
+                    </article>
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80"
+                             alt="Healthy food">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Greenox</b>
+                                <span>⭐ 4.1</span>
+                            </div>
+                            <p>Healthy, Bowls, Smoothies</p>
+                        </div>
+                    </article>
+
                 </div>
             </div>
-
-            <h2>What's on your mind?</h2>
-
-            <div class="categories">
-                <div class="category" onclick="switchPage('menu')">🍔<br>Burgers</div>
-                <div class="category" onclick="switchPage('menu')">🌯<br>Wraps</div>
-                <div class="category" onclick="switchPage('menu')">🍜<br>Chinese</div>
-                <div class="category" onclick="switchPage('menu')">🍲<br>South Indian</div>
-                <div class="category" onclick="switchPage('menu')">🥤<br>Beverages</div>
-                <div class="category" onclick="switchPage('menu')">🍰<br>Desserts</div>
-            </div>
-
-            <div class="title-row">
-                <h2>Popular Campus Outlets</h2>
-                <span onclick="switchPage('outlets')">View All →</span>
-            </div>
-
-            <div class="outlets" id="homeOutlets"></div>
-        </div>
+        </section>
 
 
         <!-- OUTLETS PAGE -->
-        <div id="page-outlets" class="page">
-            <h2>Campus Outlets</h2>
-            <p class="muted">Explore food outlets available on campus.</p>
-            <div class="outlets" id="allOutlets"></div>
-        </div>
+        <section id="outlets" class="page">
+            <div class="container">
+
+                <h2>Campus Outlets</h2>
+
+                <p class="muted">
+                    Explore food outlets available on campus.
+                    Use the search box to filter them.
+                </p>
+
+                <div class="outlets">
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
+                             alt="Burger">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Burger Singh</b>
+                                <span>⭐ 4.4</span>
+                            </div>
+                            <p>American, Fast Food</p>
+                        </div>
+                    </article>
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80"
+                             alt="Rolls">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Kathi Junction</b>
+                                <span>⭐ 4.2</span>
+                            </div>
+                            <p>North Indian, Rolls</p>
+                        </div>
+                    </article>
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
+                             alt="Maggi">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Maggi Point</b>
+                                <span>⭐ 4.0</span>
+                            </div>
+                            <p>Maggi, Fast Food</p>
+                        </div>
+                    </article>
+
+                    <article class="outlet-card">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80"
+                             alt="Healthy food">
+                        <div class="outlet-info">
+                            <div class="outlet-name">
+                                <b>Greenox</b>
+                                <span>⭐ 4.1</span>
+                            </div>
+                            <p>Healthy, Bowls, Smoothies</p>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
 
 
         <!-- MENU PAGE -->
-        <div id="page-menu" class="page">
-            <div class="menu-heading">
-                <h2 id="menuTitle">Burger Singh</h2>
-                <p class="muted">Indian Fusion Burgers • 15-20 mins delivery</p>
-            </div>
+        <section id="menu" class="page">
+            <div class="container">
 
-            <div class="menu-layout">
+                <div class="menu-heading">
+                    <h2>CampusBites Menu</h2>
 
-                <div class="menu-side">
-                    <div class="side-item active">Burgers & Combos</div>
-                    <div class="side-item">Sides</div>
-                    <div class="side-item">Beverages</div>
-                </div>
+                    <p class="muted">
+                        Choose an ordering mode and add items to your cart.
+                    </p>
 
-                <div class="food-list" id="foodList"></div>
+                    <div class="order-mode-buttons">
+                        <button type="button" id="groupModeButton"
+                                class="button">
+                            Group Order
+                        </button>
 
-                <div class="cart">
-                    <h3>Basket Preview</h3>
-                    <div id="cartItems"></div>
-
-                    <div class="summary">
-                        <div><span>Subtotal</span><span id="subtotal">₹0</span></div>
-                        <div><span>Taxes & Delivery</span><span>₹45</span></div>
-                        <div class="total"><span>Total</span><span id="total">₹0</span></div>
+                        <button type="button" id="separateModeButton"
+                                class="outline-button">
+                            Order Separately
+                        </button>
                     </div>
 
-                    <button class="button full" onclick="switchPage('live-group')">
-                        View Live Group Cart
-                    </button>
+                    <p id="modeMessage" class="muted">
+                        Current mode: Group Order
+                    </p>
                 </div>
 
+
+                <div class="menu-layout">
+
+                    <!-- MENU CATEGORIES -->
+                    <aside class="menu-side">
+                        <h3>Categories</h3>
+
+                        <a href="#food-burgers" class="side-item">
+                            Burgers & Combos
+                        </a>
+
+                        <a href="#food-drinks" class="side-item">
+                            Beverages
+                        </a>
+
+                        <a href="#food-sides" class="side-item">
+                            Sides
+                        </a>
+                    </aside>
+
+
+                    <!-- FOOD ITEMS -->
+                    <div class="food-list">
+
+                        <article class="food-card" id="food-burgers">
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+                                 alt="Spicy burger">
+
+                            <div class="food-info">
+                                <h3>Spicy Amritsari Burger</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹189</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Spicy Amritsari Burger"
+                                            data-price="189">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+
+                        <article class="food-card">
+                            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80"
+                                 alt="Paneer burger">
+
+                            <div class="food-info">
+                                <h3>Paneer Burger</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹169</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Paneer Burger"
+                                            data-price="169">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+
+                        <article class="food-card" id="food-drinks">
+                            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80"
+                                 alt="Cold coffee">
+
+                            <div class="food-info">
+                                <h3>Saffron Cold Coffee</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹120</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Saffron Cold Coffee"
+                                            data-price="120">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+
+                        <article class="food-card" id="food-sides">
+                            <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=400&q=80"
+                                 alt="Fries">
+
+                            <div class="food-info">
+                                <h3>Malabar Fries</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹99</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Malabar Fries"
+                                            data-price="99">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+
+
+                    <!-- PERSONAL CART -->
+                    <aside class="cart">
+
+                        <h3 id="personalCartTitle">
+                            Personal Cart
+                        </h3>
+
+                        <p class="muted">
+                            Your separate order appears here when
+                            you select Order Separately.
+                        </p>
+
+                        <div id="personalCartItems"></div>
+
+                        <div class="summary" id="personalCartSummary"></div>
+
+                        <button type="button"
+                                class="button"
+                                id="checkoutPersonalButton">
+                            Place Separate Order
+                        </button>
+
+                    </aside>
+
+                </div>
             </div>
-        </div>
+        </section>
 
 
         <!-- GROUP ORDER PAGE -->
-        <div id="page-live-group" class="page">
+        <section id="group-order" class="page">
+            <div class="container">
 
-            <div class="group-heading">
-                <div>
-                    <h2>Hostel 4 Lunch Squad</h2>
-                    <p class="muted">Ordering from <b>Burger Singh</b> • Shared cart is active</p>
-                </div>
-
-                <div>
-                    <span class="code">Code: <b>CB-7X2W</b></span>
-                    <button class="outline-button" onclick="addFriend()">+ Invite Friend</button>
-                </div>
-            </div>
-
-            <div class="squad" id="squad"></div>
-
-            <div class="grand-total">
-                <div>
-                    <p class="muted">Combined Basket Total</p>
-                    <h2 id="grandTotal">₹0</h2>
-                </div>
-
-                <button class="button" onclick="switchPage('bill-split')">
-                    Place Combined Order →
-                </button>
-            </div>
-
-        </div>
-
-
-        <!-- BILL SPLIT PAGE -->
-        <div id="page-bill-split" class="page">
-
-            <div class="split-banner">
-                <div>
-                    <p>ORDER ASSEMBLED SUCCESSFULLY</p>
-                    <h2>Group Bill Split Summary</h2>
-                    <p>Order total: <b id="splitTotal">₹0</b></p>
-                </div>
-
-                <button class="outline-button" onclick="window.print()">Print / Save</button>
-            </div>
-
-            <div class="split-box">
-                <h3>Split Distribution</h3>
-                <div class="progress" id="progress"></div>
-                <div id="legend"></div>
-            </div>
-
-            <div class="bill-table" id="billTable"></div>
-
-            <div class="right">
-                <button class="button" onclick="switchPage('order-confirmed')">
-                    Confirm & Pay Now
-                </button>
-            </div>
-
-        </div>
-
-
-        <!-- ORDER CONFIRMED PAGE -->
-        <div id="page-order-confirmed" class="page">
-
-            <div class="confirmed">
-                <div class="check">✓</div>
-                <h2>Order Confirmed!</h2>
-                <p class="muted">Order ID: #CB-829107 • Estimated Delivery: 15-20 mins</p>
-
-                <div class="buttons center">
-                    <button class="button">📍 Track Live Location</button>
-                    <button class="outline-button" onclick="switchPage('home')">Order Again</button>
-                </div>
-
-                <div class="timeline">
+                <div class="group-heading">
                     <div>
-                        <b>Order Confirmed</b>
-                        <p class="muted">Restaurant has accepted your group order.</p>
+                        <h2>Group Order</h2>
+
+                        <p class="muted">
+                            Add everyone's items to one cart and
+                            calculate each member's share.
+                        </p>
                     </div>
 
-                    <div>
-                        <b>Preparing Your Food</b>
-                        <p class="muted">Kitchen is preparing your order.</p>
-                    </div>
-
-                    <div>
-                        <b>Out for Delivery</b>
-                        <p class="muted">Delivery partner will bring your order.</p>
-                    </div>
+                    <span class="code">
+                        Demo Group Code: <b>CB-7X2W</b>
+                    </span>
                 </div>
+
+
+                <!-- MANUAL ORDER FORM -->
+                <div class="input-box">
+
+                    <h3>Add an Order Manually</h3>
+
+                    <div class="form-grid">
+
+                        <div>
+                            <label for="memberName">Member Name</label>
+                            <input id="memberName"
+                                   type="text"
+                                   placeholder="Enter member name">
+                        </div>
+
+                        <div>
+                            <label for="foodItem">Food Item</label>
+                            <input id="foodItem"
+                                   type="text"
+                                   placeholder="Enter food item">
+                        </div>
+
+                        <div>
+                            <label for="quantity">Quantity</label>
+                            <input id="quantity"
+                                   type="number"
+                                   min="1"
+                                   step="1"
+                                   placeholder="Quantity">
+                        </div>
+
+                        <div>
+                            <label for="price">Price per item (₹)</label>
+                            <input id="price"
+                                   type="number"
+                                   min="0"
+                                   step="0.01"
+                                   placeholder="Price">
+                        </div>
+
+                    </div>
+
+                    <button type="button"
+                            class="button"
+                            id="addOrderButton">
+                        Add Order
+                    </button>
+
+                </div>
+
+
+                <!-- GROUP CART AND BILL SPLIT -->
+                <div class="group-cart">
+
+                    <h3>Group Cart</h3>
+
+                    <p class="muted">
+                        Orders added by group members appear below.
+                    </p>
+
+                    <div id="groupCartItems">
+                        <div class="empty-cart">
+                            Your group cart is empty.
+                        </div>
+                    </div>
+
+                    <div class="member-bill" id="memberBill">
+                        <h3>Bill Split</h3>
+                        <p>
+                            Add an order to calculate the total
+                            and each member's share.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- GROUP TOTAL -->
+                <div class="grand-total">
+
+                    <div>
+                        <p>Group Total</p>
+                        <h2 id="groupTotal">₹0.00</h2>
+                    </div>
+
+                    <button type="button"
+                            class="button"
+                            id="confirmGroupButton">
+                        Confirm Group Order
+                    </button>
+
+                </div>
+
             </div>
+        </section>
 
-        </div>
-
-    </div>
+    </main>
 
 
     <!-- FOOTER -->
-    <div class="footer">
+    <footer class="footer">
+
         <div>
             <h2>🍔 CampusBites</h2>
-            <p>The ultimate campus food companion with easy group ordering and bill splitting.</p>
+            <p>
+                Making campus food ordering easier,
+                one group at a time.
+            </p>
         </div>
 
         <div>
-            <h3>Quick Links</h3>
-            <p onclick="switchPage('outlets')">Browse Outlets</p>
-            <p onclick="switchPage('live-group')">Start Group Order</p>
-            <p onclick="switchPage('home')">Order History</p>
+            <h3>Explore</h3>
+            <a href="#home">Home</a>
+            <a href="#outlets">Outlets</a>
+            <a href="#menu">Menu</a>
         </div>
 
         <div>
-            <h3>For Outlets</h3>
-            <p>Partner with Us</p>
-            <p>Dashboard Portal</p>
+            <h3>Ordering</h3>
+            <a href="#menu">Order Separately</a>
+            <a href="#group-order">Group Order</a>
         </div>
 
         <div>
-            <h3>Support</h3>
-            <p>Help Center / FAQs</p>
-            <p>Refund Policies</p>
-            <p>Campus Support</p>
+            <h3>About</h3>
+            <p>Made for campus students.</p>
         </div>
-    </div>
 
-
-    <!-- Link to the external JavaScript file -->
-    <script src="script.js"></script>
+    </footer>
 
 </body>
 </html>
