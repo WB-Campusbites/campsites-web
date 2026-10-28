@@ -573,41 +573,92 @@ document.getElementById("checkoutPersonalButton").addEventListener("click", func
 });
 
 
-// CONFIRM GROUP ORDER
+
+ // CONFIRM GROUP ORDER AND SHOW MODAL
+
+var confirmationModal =
+    document.getElementById("confirmationModal");
+
+var confirmationDetails =
+    document.getElementById("confirmationDetails");
+
+var closeConfirmation =
+    document.getElementById("closeConfirmation");
+
 
 document.getElementById("confirmGroupButton").addEventListener("click", function () {
 
+    // Check whether the group cart is empty
     if (groupOrders.length === 0) {
-
         alert("Please add at least one item before confirming.");
+        return;
+    }
 
-    } else {
+    var subtotal = 0;
+    var output = "";
 
-        var total = 0;
+    // Display all ordered items
+    for (var i = 0; i < groupOrders.length; i++) {
+
+        var order = groupOrders[i];
+        var itemTotal = order.quantity * order.price;
+
+        subtotal = subtotal + itemTotal;
+
+        output += '<div class="confirmation-item">';
+        output += '<span>' +
+            safeText(order.item) +
+            ' × ' + order.quantity +
+            '</span>';
+
+        output += '<span>₹' +
+            itemTotal.toFixed(2) +
+            '</span>';
+
+        output += '</div>';
+    }
+
+    // Calculate final total
+    var delivery = deliveryCharge;
+    var total = subtotal + delivery;
+
+    // Show bill summary
+    confirmationDetails.innerHTML =
+        '<div class="confirmation-details">' +
+            '<h3>Order Summary</h3>' +
+            output +
+            '<div class="confirmation-item">' +
+                '<span>Delivery Charge</span>' +
+                '<span>₹' + delivery.toFixed(2) + '</span>' +
+            '</div>' +
+            '<div class="confirmation-total">' +
+                '<span>Total Amount</span>' +
+                '<span>₹' + total.toFixed(2) + '</span>' +
+            '</div>' +
+        '</div>';
+
+    // Open the modal
+    confirmationModal.style.display = "flex";
+});
 
 
-        // Calculate the food subtotal
-        for (var i = 0; i < groupOrders.length; i++) {
+// CLOSE THE MODAL
 
-            total = total +
-                groupOrders[i].quantity * groupOrders[i].price;
-
-        }
+closeConfirmation.addEventListener("click", function () {
+    confirmationModal.style.display = "none";
+});
 
 
-        // Add delivery charge
-        total = total + deliveryCharge;
+// Close when clicking outside the popup
 
+confirmationModal.addEventListener("click", function (event) {
 
-        alert(
-            "Group order confirmed in this demo!\n" +
-            "Group total: ₹" + total.toFixed(2) +
-            "\nNo real order or payment has been made."
-        );
-
+    if (event.target === confirmationModal) {
+        confirmationModal.style.display = "none";
     }
 
 });
+
 
 
 // SEARCH OUTLETS
