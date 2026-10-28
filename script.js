@@ -1,5 +1,5 @@
 // CAMPUSBITES JAVASCRIPT
-
+console.log("CampusBites JavaScript loaded successfully!");
 // Store orders in arrays
 var groupOrders = [];
 var personalOrders = [];
@@ -45,10 +45,11 @@ var outletMenus = {
     ]
 };
 
+
 function showOutletMenu(outletName) {
+
     var foodList = document.getElementById("foodList");
     var heading = document.getElementById("selectedOutletName");
-
     var items = outletMenus[outletName];
 
     if (!items) {
@@ -56,29 +57,31 @@ function showOutletMenu(outletName) {
     }
 
     heading.textContent = outletName + " Menu";
-
     foodList.innerHTML = "";
 
-    items.forEach(function(item) {
+    for (var i = 0; i < items.length; i++) {
+
+        var item = items[i];
         var card = document.createElement("article");
+
         card.className = "food-card";
 
-        card.innerHTML = `
-            <h3>${item.name}</h3>
-            <p>₹${item.price}</p>
-            <button
-                class="add-button"
-                data-name="${item.name}"
-                data-price="${item.price}">
-                Add to Cart
-            </button>
-        `;
+        card.innerHTML =
+            '<div class="food-info">' +
+            '<h3>' + safeText(item.name) + '</h3>' +
+            '<p>₹' + item.price + '</p>' +
+            '<button type="button" class="add-button" ' +
+            'data-name="' + safeText(item.name) + '" ' +
+            'data-price="' + item.price + '">' +
+            'Add to Cart</button>' +
+            '</div>';
 
         foodList.appendChild(card);
-    });
+    }
 
     window.location.hash = "menu";
 }
+
 
 document.querySelectorAll(".outlet-card[data-outlet]").forEach(function(card) {
     card.addEventListener("click", function() {
@@ -127,6 +130,11 @@ function changeMode(mode) {
 
         document.getElementById("separateModeButton").className = "button";
     }
+    if (mode === "group") {
+    showMenuGroupCart();
+} else {
+    showPersonalCart();
+}
 }
 
 
@@ -159,22 +167,25 @@ document.getElementById("startSeparateOrder").addEventListener("click", function
 
  // ADD FOOD ITEMS FROM THE MENU
 
-document.getElementById("foodList").addEventListener("click", function(event) {
 
-    var button = event.target.closest(".add-button");
+document.getElementById("foodList").addEventListener("click", function (event) {
 
-    if (!button) {
+    if (event.target.className !== "add-button") {
         return;
     }
 
-    var itemName = button.getAttribute("data-name");
-    var itemPrice = Number(button.getAttribute("data-price"));
+    var itemName = event.target.getAttribute("data-name");
+    var itemPrice = Number(event.target.getAttribute("data-price"));
+
+    // DEBUG: Check which food was selected
+console.log("Food selected:", itemName);
+console.log("Food price:", itemPrice);
+console.log("Current order mode:", orderMode);
+
 
     if (orderMode === "separate") {
 
-        var quantityText = prompt(
-            "How many " + itemName + " would you like?"
-        );
+        var quantityText = prompt("Enter quantity for " + itemName);
 
         if (quantityText === null) {
             return;
@@ -182,53 +193,42 @@ document.getElementById("foodList").addEventListener("click", function(event) {
 
         var quantity = Number(quantityText);
 
-        if (
-            quantityText.trim() === "" ||
-            quantity < 1 ||
-            quantity % 1 !== 0
-        ) {
-            alert("Please enter a whole number of at least 1.");
+        if (quantityText.trim() === "" ||
+            quantity < 1 || quantity % 1 !== 0) {
+            alert("Enter a valid whole-number quantity.");
             return;
         }
 
-        var personalOrder = {
+        personalOrders.push({
             item: itemName,
             quantity: quantity,
             price: itemPrice
-        };
+        });
 
-        personalOrders.push(personalOrder);
         showPersonalCart();
-
-        alert(itemName + " added to your personal cart.");
 
     } else {
 
-        var member = prompt("Enter the group member's name:");
+        var member = prompt("Enter group member name:");
 
-        if (member === null) {
-            return;
-        }
-
-        if (member.trim() === "") {
+        if (member === null || member.trim() === "") {
             alert("Please enter a member name.");
             return;
         }
 
-        var groupOrder = {
+        groupOrders.push({
             member: member.trim(),
             item: itemName,
             quantity: 1,
             price: itemPrice
-        };
+        });
 
-        groupOrders.push(groupOrder);
         showGroupCart();
-
-        alert(itemName + " added to the group cart.");
+        showMenuGroupCart();
     }
 
 });
+
 
 
 // ADD A MANUAL ORDER TO THE GROUP CART
@@ -451,6 +451,55 @@ function showGroupCart() {
 }
 
 
+function showMenuGroupCart() {
+
+    var itemsArea = document.getElementById("personalCartItems");
+    var summaryArea = document.getElementById("personalCartSummary");
+    var output = "";
+    var subtotal = 0;
+
+    for (var i = 0; i < groupOrders.length; i++) {
+
+        var order = groupOrders[i];
+        var itemTotal = order.quantity * order.price;
+
+        subtotal = subtotal + itemTotal;
+
+        output += '<div class="order-row">';
+        output += safeText(order.member) + " — ";
+        output += safeText(order.item) + " × " + order.quantity;
+        output += " — ₹" + itemTotal.toFixed(2);
+
+        output += ' <button type="button" ' +
+            'class="outline-button remove-menu-group" ' +
+            'data-index="' + i + '">Remove</button>';
+
+        output += '</div>';
+    }
+
+    if (groupOrders.length === 0) {
+        output = '<p class="muted">Your group cart is empty.</p>';
+    }
+
+    itemsArea.innerHTML = output;
+
+    var delivery = groupOrders.length > 0 ? deliveryCharge : 0;
+    var total = subtotal + delivery;
+
+    summaryArea.innerHTML =
+        '<div><span>Subtotal</span><span>₹' +
+        subtotal.toFixed(2) + '</span></div>' +
+
+        '<div><span>Delivery</span><span>₹' +
+        delivery.toFixed(2) + '</span></div>' +
+
+        '<div class="total"><span>Grand Total</span><span>₹' +
+        total.toFixed(2) + '</span></div>';
+}
+
+
+
+
 // REMOVE ITEMS FROM GROUP CART
 
 groupCartItems.addEventListener("click", function (event) {
@@ -561,54 +610,72 @@ function showPersonalCart() {
 
 // REMOVE ITEMS FROM PERSONAL CART
 
+
 document.getElementById("personalCartItems").addEventListener("click", function (event) {
 
-    if (event.target.className.indexOf("remove-personal") !== -1) {
+    var button = event.target;
 
-        var itemIndex = Number(
-            event.target.getAttribute("data-index")
-        );
+    if (button.classList.contains("remove-personal")) {
 
+        var index = Number(button.getAttribute("data-index"));
 
-        // Remove selected item
-        personalOrders.splice(itemIndex, 1);
+        personalOrders.splice(index, 1);
 
-
-        // Update the personal cart
         showPersonalCart();
 
+    } else if (button.classList.contains("remove-menu-group")) {
+
+        var index = Number(button.getAttribute("data-index"));
+
+        groupOrders.splice(index, 1);
+
+        showGroupCart();
+        showMenuGroupCart();
     }
 
 });
+
 
 
 // PLACE SEPARATE ORDER
 
+
 document.getElementById("checkoutPersonalButton").addEventListener("click", function () {
 
-    if (personalOrders.length === 0) {
-
-        alert("Your personal cart is empty. Add an item first.");
-
-    } else {
-
-        var total = getPersonalTotal();
-
-        alert(
-            "Your separate order is confirmed in this demo.\n" +
-            "Total: ₹" + total.toFixed(2) +
-            "\nNo real order or payment has been made."
-        );
-
-
-        // Empty the personal cart after confirmation
-        personalOrders = [];
-
-        showPersonalCart();
-
+    if (orderMode !== "separate") {
+        alert("Please select Order Separately before placing your personal order.");
+        return;
     }
 
+    if (personalOrders.length === 0) {
+        alert("Your personal cart is empty. Add an item first.");
+        return;
+    }
+
+    var total = getPersonalTotal();
+    var output = "Order Summary\n\n";
+
+    for (var i = 0; i < personalOrders.length; i++) {
+
+        var order = personalOrders[i];
+        var itemTotal = order.quantity * order.price;
+
+        output += order.item + " x " + order.quantity +
+            " = ₹" + itemTotal.toFixed(2) + "\n";
+    }
+
+    output += "\nTotal Amount: ₹" + total.toFixed(2);
+    output += "\n\nYour order has been placed!";
+
+    alert(output);
+
+    // Clear the cart after placing the order
+    personalOrders = [];
+
+    showPersonalCart();
+
 });
+
 
 
 
@@ -675,8 +742,15 @@ document.getElementById("confirmGroupButton").addEventListener("click", function
             '</div>' +
         '</div>';
 
-    // Open the modal
-    confirmationModal.style.display = "flex";
+    // Open the confirmation modal
+confirmationModal.style.display = "flex";
+
+// Clear the group cart after preparing the receipt
+groupOrders = [];
+
+showGroupCart();
+showMenuGroupCart();
+    
 });
 
 

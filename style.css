@@ -277,15 +277,24 @@ h2 {
 
 /* MENU LAYOUT */
 
-.menu-heading {
-    margin-bottom: 25px;
-}
+
+/* MENU LAYOUT */
 
 .menu-layout {
     display: grid;
-    grid-template-columns: 180px 1fr 280px;
-    gap: 20px;
+    grid-template-columns: 220px minmax(0, 1fr) 280px;
+    gap: 24px;
     align-items: start;
+}
+
+.menu-main {
+    width: 100%;
+    min-width: 0;
+}
+
+#selectedOutletName {
+    font-size: 26px;
+    margin-bottom: 24px;
 }
 
 .menu-side,
@@ -295,22 +304,8 @@ h2 {
     background: #151221;
     border: 1px solid #333;
     border-radius: 10px;
-    padding: 15px;
+    padding: 18px;
     height: fit-content;
-}
-
-.side-item {
-    display: block;
-    padding: 10px;
-    margin-bottom: 5px;
-    color: #aaa;
-    text-decoration: none;
-}
-
-.side-item:hover {
-    background: #252033;
-    color: white;
-    border-radius: 6px;
 }
 
 
@@ -318,48 +313,95 @@ h2 {
 
 .food-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    width: 100%;
 }
 
 .food-card {
     background: #151221;
     border: 1px solid #333;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
+    min-width: 0;
+    transition: transform 0.2s ease;
+}
+
+.food-card:hover {
+    transform: translateY(-4px);
 }
 
 .food-card img {
+    display: block;
     width: 100%;
-    height: 130px;
+    height: 190px;
     object-fit: cover;
 }
 
 .food-info {
-    padding: 12px;
+    padding: 18px;
 }
 
 .food-info h3 {
-    font-size: 16px;
-    margin-bottom: 15px;
+    font-size: 19px;
+    line-height: 1.4;
+    margin-bottom: 18px;
 }
 
 .food-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .add-button {
     background: #e53935;
     color: white;
     border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 .add-button:hover {
     background: #c62828;
 }
+
+
+/* RESPONSIVE LAYOUT */
+
+@media (max-width: 1100px) {
+    .menu-layout {
+        grid-template-columns: 190px minmax(0, 1fr);
+    }
+
+    .menu-layout > .cart {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 650px) {
+    .menu-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .food-list {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-layout > .cart {
+        grid-column: auto;
+    }
+
+    .food-card img {
+        height: 210px;
+    }
+}
+
+
+
 
 
 /* INPUTS AND LABELS */
