@@ -15,6 +15,78 @@ var deliveryCharge = 45;
 
 var menuButtons = document.querySelectorAll(".add-button");
 
+var outletMenus = {
+    "Burger Singh": [
+        { name: "Classic Burger", price: 149 },
+        { name: "King Burger", price: 199 },
+        { name: "Crispy Fries", price: 99 },
+        { name: "Cold Coffee", price: 120 }
+    ],
+
+    "Kathi Junction": [
+        { name: "Paneer Kathi Roll", price: 149 },
+        { name: "Veg Kathi Roll", price: 119 },
+        { name: "Aloo Tikki Roll", price: 99 },
+        { name: "Cold Coffee", price: 120 }
+    ],
+
+    "Maggi Point": [
+        { name: "Classic Maggi", price: 60 },
+        { name: "Cheese Maggi", price: 90 },
+        { name: "Peri Peri Maggi", price: 80 },
+        { name: "Masala Maggi", price: 70 }
+    ],
+
+    "Greenox": [
+        { name: "Veg Sandwich", price: 99 },
+        { name: "Paneer Wrap", price: 149 },
+        { name: "Healthy Salad", price: 129 },
+        { name: "Fresh Juice", price: 89 }
+    ]
+};
+
+function showOutletMenu(outletName) {
+    var foodList = document.getElementById("foodList");
+    var heading = document.getElementById("selectedOutletName");
+
+    var items = outletMenus[outletName];
+
+    if (!items) {
+        return;
+    }
+
+    heading.textContent = outletName + " Menu";
+
+    foodList.innerHTML = "";
+
+    items.forEach(function(item) {
+        var card = document.createElement("article");
+        card.className = "food-card";
+
+        card.innerHTML = `
+            <h3>${item.name}</h3>
+            <p>₹${item.price}</p>
+            <button
+                class="add-button"
+                data-name="${item.name}"
+                data-price="${item.price}">
+                Add to Cart
+            </button>
+        `;
+
+        foodList.appendChild(card);
+    });
+
+    window.location.hash = "menu";
+}
+
+document.querySelectorAll(".outlet-card[data-outlet]").forEach(function(card) {
+    card.addEventListener("click", function() {
+        var outletName = card.getAttribute("data-outlet");
+        showOutletMenu(outletName);
+    });
+});
+
 var memberNameInput = document.getElementById("memberName");
 var foodItemInput = document.getElementById("foodItem");
 var quantityInput = document.getElementById("quantity");
@@ -85,112 +157,78 @@ document.getElementById("startSeparateOrder").addEventListener("click", function
 });
 
 
-// ADD FOOD ITEMS FROM THE MENU
+ // ADD FOOD ITEMS FROM THE MENU
 
-for (var i = 0; i < menuButtons.length; i++) {
+document.getElementById("foodList").addEventListener("click", function(event) {
 
-    menuButtons[i].addEventListener("click", function () {
+    var button = event.target.closest(".add-button");
 
-        // Read the food name and price from HTML attributes
-        var itemName = this.getAttribute("data-name");
+    if (!button) {
+        return;
+    }
 
-        var itemPrice = Number(this.getAttribute("data-price"));
+    var itemName = button.getAttribute("data-name");
+    var itemPrice = Number(button.getAttribute("data-price"));
 
+    if (orderMode === "separate") {
 
-        // CHECK THE SELECTED ORDERING MODE
+        var quantityText = prompt(
+            "How many " + itemName + " would you like?"
+        );
 
-        if (orderMode === "separate") {
-
-            // Ask the customer for the quantity
-            var quantityText = prompt(
-                "How many " + itemName + " would you like?"
-            );
-
-            if (quantityText === null) {
-                return;
-            }
-
-            var quantity = Number(quantityText);
-
-
-            // Validate the quantity
-            if (
-                quantityText.trim() === "" ||
-                quantity < 1 ||
-                quantity % 1 !== 0
-            ) {
-
-                alert("Please enter a whole number of at least 1.");
-
-                return;
-            }
-
-
-            // Create a personal order object
-            var personalOrder = {
-
-                item: itemName,
-
-                quantity: quantity,
-
-                price: itemPrice
-
-            };
-
-
-            // Add the object to the personal orders array
-            personalOrders.push(personalOrder);
-
-
-            // Update the personal cart
-            showPersonalCart();
-
-            alert(itemName + " added to your personal cart.");
-
-        } else {
-
-            // Ask which member is ordering the item
-            var member = prompt("Enter the group member's name:");
-
-            if (member === null) {
-                return;
-            }
-
-            if (member.trim() === "") {
-
-                alert("Please enter a member name.");
-
-                return;
-            }
-
-
-            // Create a group order object
-            var groupOrder = {
-
-                member: member.trim(),
-
-                item: itemName,
-
-                quantity: 1,
-
-                price: itemPrice
-
-            };
-
-
-            // Add the object to the group orders array
-            groupOrders.push(groupOrder);
-
-
-            // Update the group cart and bill
-            showGroupCart();
-
-            alert(itemName + " added to the group cart.");
+        if (quantityText === null) {
+            return;
         }
 
-    });
+        var quantity = Number(quantityText);
 
-}
+        if (
+            quantityText.trim() === "" ||
+            quantity < 1 ||
+            quantity % 1 !== 0
+        ) {
+            alert("Please enter a whole number of at least 1.");
+            return;
+        }
+
+        var personalOrder = {
+            item: itemName,
+            quantity: quantity,
+            price: itemPrice
+        };
+
+        personalOrders.push(personalOrder);
+        showPersonalCart();
+
+        alert(itemName + " added to your personal cart.");
+
+    } else {
+
+        var member = prompt("Enter the group member's name:");
+
+        if (member === null) {
+            return;
+        }
+
+        if (member.trim() === "") {
+            alert("Please enter a member name.");
+            return;
+        }
+
+        var groupOrder = {
+            member: member.trim(),
+            item: itemName,
+            quantity: 1,
+            price: itemPrice
+        };
+
+        groupOrders.push(groupOrder);
+        showGroupCart();
+
+        alert(itemName + " added to the group cart.");
+    }
+
+});
 
 
 // ADD A MANUAL ORDER TO THE GROUP CART
