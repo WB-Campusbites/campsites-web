@@ -905,3 +905,19 @@ button.button:disabled { opacity: 0.6; cursor: not-allowed; }
     #toastBox { left: 20px; }
     .toast { max-width: none; }
 }
+/* MENU CATEGORY FILTERS */
+
+.side-item {
+    display: block;
+    padding: 10px 12px;
+    margin-top: 6px;
+    color: #aaa;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.side-item:hover { background: #252033; color: white; }
+.side-item.active { background: #e53935; color: white; font-weight: bold; }
+
+.food-outlet { color: #999; font-size: 13px; margin: -10px 0 14px; }
+.clear-outlet { margin-bottom: 18px; padding: 7px 12px; font-size: 14px; }
