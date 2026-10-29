@@ -774,3 +774,134 @@ input::placeholder {
         padding: 22px;
     }
 }
+
+/* =========================================================
+   PHASE 2 ADDITIONS: forms, validation, toasts, new pages
+   ========================================================= */
+
+.container.narrow { max-width: 900px; }
+
+/* Navbar extras */
+.nav-link.active { background: #252033; color: white; border-radius: 6px; }
+.auth-nav { display: flex; align-items: center; gap: 8px; }
+.user-chip { color: #ddd; font-size: 14px; white-space: nowrap; }
+
+/* Form fields */
+.field { margin-bottom: 16px; }
+.field.member-wrap { max-width: 320px; margin-top: 10px; }
+
+select,
+textarea {
+    background: #211d2d;
+    border: 1px solid #444;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+textarea { resize: vertical; }
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #e53935;
+    outline-offset: 1px;
+}
+
+input.invalid,
+select.invalid,
+textarea.invalid { border-color: #ff5252; }
+
+.error {
+    display: block;
+    color: #ff7b7b;
+    font-size: 13px;
+    margin-top: 5px;
+    min-height: 0;
+}
+
+.char-count { text-align: right; color: #888; font-size: 12px; margin: -8px 0 14px; }
+
+/* Auth / form cards */
+.auth-card {
+    background: #151221;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 30px;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.auth-card.wide { max-width: 600px; }
+.auth-card.center, .center { text-align: center; }
+.auth-card a { color: #ff7777; }
+
+.button.full { width: 100%; padding: 12px; font-size: 15px; }
+button.button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Checkout */
+.checkout-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+[hidden] { display: none !important; }
+
+/* Cart quantity controls */
+.qty-controls { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+
+.qty-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #252033;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.qty-btn:hover { border-color: #e53935; }
+.qty-value { min-width: 24px; text-align: center; font-weight: bold; }
+.remove-btn { padding: 5px 10px; font-size: 13px; margin-left: 4px !important; }
+
+/* Toast messages */
+#toastBox {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background: #252033;
+    border-left: 4px solid #6c63ff;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    max-width: 320px;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast.success { border-left-color: #55dc91; }
+.toast.error { border-left-color: #ff5252; }
+.toast.hide { opacity: 0; transform: translateX(20px); }
+
+@media (max-width: 850px) {
+    .checkout-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 550px) {
+    .auth-card { padding: 22px; }
+    #toastBox { left: 20px; }
+    .toast { max-width: none; }
+}

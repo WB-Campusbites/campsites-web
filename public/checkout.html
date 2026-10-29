@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | CampusBites</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="common.js" defer></script>
+    <script src="forms.js" defer></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html#home" class="logo">🍔 CampusBites</a>
+
+        <div class="nav-links">
+            <a href="index.html#home" class="nav-link">Home</a>
+            <a href="index.html#outlets" class="nav-link">Outlets</a>
+            <a href="index.html#menu" class="nav-link">Menu</a>
+            <a href="index.html#group-order" class="nav-link">Group Order</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html#group-order" class="button">Group Cart</a>
+            <span id="authNav" class="auth-nav"></span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container narrow">
+            <h2>Checkout</h2>
+
+            <div id="checkoutEmpty" class="empty-cart" hidden>
+                Nothing to check out yet.
+                <p><a href="index.html#menu" class="button" style="margin-top:12px">Browse the menu</a></p>
+            </div>
+
+            <div id="checkoutLayout" class="checkout-layout">
+                <form id="checkoutForm" class="input-box" novalidate>
+                    <h3>Delivery details</h3>
+                <div class="field">
+                    <label for="customerName">Your name</label>
+                    <input id="customerName" name="customerName" type="text" placeholder="Name" maxlength="50">
+                    <small class="error" data-error-for="customerName"></small>
+                </div>
+                <div class="field">
+                    <label for="phone">Mobile number</label>
+                    <input id="phone" name="phone" type="tel" placeholder="10-digit number" maxlength="10" inputmode="numeric">
+                    <small class="error" data-error-for="phone"></small>
+                </div>
+                <div class="field">
+                    <label for="hostel">Hostel / room / delivery spot</label>
+                    <input id="hostel" name="hostel" type="text" placeholder="e.g. Block C, Room 214" maxlength="80">
+                    <small class="error" data-error-for="hostel"></small>
+                </div>
+                    <div class="field">
+                        <label for="paymentMode">Payment mode</label>
+                        <select id="paymentMode" name="paymentMode">
+                            <option value="">Choose payment mode</option>
+                            <option value="cash">Cash on delivery</option>
+                            <option value="upi">UPI</option>
+                            <option value="card">Card</option>
+                        </select>
+                        <small class="error" data-error-for="paymentMode"></small>
+                    </div>
+                <div class="field">
+                    <label for="notes">Notes for the canteen (optional)</label>
+                    <textarea id="notes" name="notes" rows="3" maxlength="200" placeholder="Less spicy, extra napkins..."></textarea>
+                    <small class="error" data-error-for="notes"></small>
+                </div>
+                    <button type="submit" class="button full">Place Order</button>
+                </form>
+
+                <aside class="cart">
+                    <h3 id="summaryTitle">Order Summary</h3>
+                    <div id="summaryRows"></div>
+                    <p class="muted" style="margin-top:14px">
+                        <a href="index.html#menu">← Edit cart</a>
+                    </p>
+                </aside>
+            </div>
+
+            <div id="checkoutDone" class="auth-card center" hidden>
+                <div class="success-icon">✓</div>
+                <h2>Order Confirmed!</h2>
+                <p class="confirmation-message">
+                    Order ID: <b id="confirmId"></b><br>
+                    Total: <b id="confirmTotal"></b>
+                </p>
+                <a href="index.html#home" class="button">Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div>
+            <h2>🍔 CampusBites</h2>
+            <p>Making campus food ordering easier, one group at a time.</p>
+        </div>
+        <div>
+            <h3>Explore</h3>
+            <a href="index.html#home">Home</a>
+            <a href="index.html#outlets">Outlets</a>
+            <a href="index.html#menu">Menu</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div>
+            <h3>Ordering</h3>
+            <a href="index.html#menu">Order Separately</a>
+            <a href="index.html#group-order">Group Order</a>
+        </div>
+        <div>
+            <h3>Account</h3>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+        </div>
+    </footer>
+</body>
+</html>
