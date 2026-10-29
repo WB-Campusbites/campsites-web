@@ -6,6 +6,7 @@
     <title>CampusBites</title>
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
@@ -65,6 +66,10 @@
                     <a href="#menu" class="category" data-category="wraps">🌯<br>Wraps</a>
                     <a href="#menu" class="category" data-category="beverages">🥤<br>Beverages</a>
                     <a href="#menu" class="category" data-category="sides">🍟<br>Sides</a>
+                    <a href="#menu" class="category">🍔<br>Burgers</a>
+                    <a href="#menu" class="category">🌯<br>Wraps</a>
+                    <a href="#menu" class="category">🥤<br>Beverages</a>
+                    <a href="#menu" class="category">🍟<br>Sides</a>
                 </div>
 
                 <div class="title-row">
@@ -75,6 +80,7 @@
                 <div class="outlets">
 
                     <article class="outlet-card" data-outlet="Burger Singh">
+                    <article class="outlet-card">
                         <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
                              alt="Burger">
                         <div class="outlet-info">
@@ -87,6 +93,7 @@
                     </article>
 
                     <article class="outlet-card" data-outlet="Kathi Junction">
+                    <article class="outlet-card">
                         <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80"
                              alt="Rolls">
                         <div class="outlet-info">
@@ -99,6 +106,7 @@
                     </article>
 
                     <article class="outlet-card" data-outlet="Maggi Point">
+                    <article class="outlet-card">
                         <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
                              alt="Maggi">
                         <div class="outlet-info">
@@ -111,6 +119,7 @@
                     </article>
 
                     <article class="outlet-card" data-outlet="Greenox">
+                    <article class="outlet-card">
                         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80"
                              alt="Healthy food">
                         <div class="outlet-info">
@@ -139,6 +148,10 @@
                 </p>
 
                 <p id="noResults" class="muted" hidden>No outlets match your search.</p>
+
+                    Explore food outlets available on campus.
+                    Use the search box to filter them.
+                </p>
 
                 <div class="outlets">
 
@@ -259,6 +272,117 @@
 
 
                     <!-- CART -->
+                    <!-- MENU CATEGORIES -->
+                    <aside class="menu-side">
+                        <h3>Categories</h3>
+
+                        <a href="#food-burgers" class="side-item">
+                            Burgers & Combos
+                        </a>
+
+                        <a href="#food-drinks" class="side-item">
+                            Beverages
+                        </a>
+
+                        <a href="#food-sides" class="side-item">
+                            Sides
+                        </a>
+                    </aside>
+<!-- FOOD ITEMS - MAIN MIDDLE SECTION -->
+<div class="menu-main">
+
+    <h3 id="selectedOutletName">Popular Food Items</h3>
+
+    <div class="food-list" id="foodList">
+
+ <article class="food-card" id="food-burgers">
+   <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+                                 alt="Spicy burger">
+
+                            <div class="food-info">
+                                <h3>Spicy Amritsari Burger</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹189</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Spicy Amritsari Burger"
+                                            data-price="189">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+
+                        <article class="food-card">
+                            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80"
+                                 alt="Paneer burger">
+
+                            <div class="food-info">
+                                <h3>Paneer Burger</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹169</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Paneer Burger"
+                                            data-price="169">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+
+                        <article class="food-card" id="food-drinks">
+                            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80"
+                                 alt="Cold coffee">
+
+                            <div class="food-info">
+                                <h3>Saffron Cold Coffee</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹120</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Saffron Cold Coffee"
+                                            data-price="120">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+
+                        <article class="food-card" id="food-sides">
+                            <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=400&q=80"
+                                 alt="Fries">
+
+                            <div class="food-info">
+                                <h3>Malabar Fries</h3>
+
+                                <div class="food-bottom">
+                                    <b>₹99</b>
+                                    <button class="add-button"
+                                            type="button"
+                                            data-name="Malabar Fries"
+                                            data-price="99">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+                        </div> <!-- End food-list -->
+
+</div> <!-- End menu-main -->
+
+
+<!-- PERSONAL CART -->
+
+
+                    <!-- PERSONAL CART -->
                     <aside class="cart">
 
                         <h3 id="personalCartTitle">
@@ -267,6 +391,8 @@
 
                         <p class="muted">
                             Items you add appear here. Use + / − to change quantity.
+                            Your separate order appears here when
+                            you select Order Separately.
                         </p>
 
                         <div id="personalCartItems"></div>
@@ -319,6 +445,7 @@
                                    type="text"
                                    placeholder="Enter member name" maxlength="50">
                             <small class="error" data-error-for="memberName"></small>
+                                   placeholder="Enter member name">
                         </div>
 
                         <div>
@@ -440,5 +567,33 @@
         </div>
 
     </footer>
+            <h3>About</h3>
+            <p>Made for campus students.</p>
+        </div>
+
+    </footer>
+<!-- ORDER CONFIRMATION MODAL -->
+<div id="confirmationModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="success-icon">✓</div>
+
+        <h2>Order Confirmed!</h2>
+
+        <p class="confirmation-message">
+            Your CampusBites group order has been confirmed.
+        </p>
+
+        <div id="confirmationDetails"></div>
+
+        <button type="button" id="closeConfirmation"
+                class="button">
+            Continue
+        </button>
+
+    </div>
+
+</div>
 </body>
 </html>
