@@ -1,0 +1,13 @@
+{
+  "name": "campsites-web",
+  "version": "1.0.0",
+  "description": "CampusBites - order food together with your squad and split the bill",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT"
+}
