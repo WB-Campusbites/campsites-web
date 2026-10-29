@@ -1,0 +1,11 @@
+{
+  "name": "campusbites-web",
+  "version": "2.0.0",
+  "description": "CampusBites - campus group food ordering (Phase 2: forms + local JSON storage)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=16" },
+  "license": "MIT"
+}

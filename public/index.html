@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CampusBites</title>
     <link rel="stylesheet" href="style.css">
+    <script src="common.js" defer></script>
     <script src="script.js" defer></script>
 </head>
 
@@ -19,12 +20,14 @@
             <a href="#outlets" class="nav-link">Outlets</a>
             <a href="#menu" class="nav-link">Menu</a>
             <a href="#group-order" class="nav-link">Group Order</a>
+            <a href="contact.html" class="nav-link">Contact</a>
         </div>
 
         <div class="nav-buttons">
             <input class="search" id="searchBox"
                    type="text" placeholder="Search outlets...">
             <a href="#group-order" class="button">Group Cart</a>
+            <span id="authNav" class="auth-nav"></span>
         </div>
     </nav>
 
@@ -70,9 +73,11 @@
                     <a href="#outlets">View All →</a>
                 </div>
 
+                <p id="noResults" class="muted" hidden>No outlets match your search.</p>
+
                 <div class="outlets">
 
-                    <article class="outlet-card">
+                    <article class="outlet-card" data-outlet="Burger Singh">
                         <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
                              alt="Burger">
                         <div class="outlet-info">
@@ -84,7 +89,7 @@
                         </div>
                     </article>
 
-                    <article class="outlet-card">
+                    <article class="outlet-card" data-outlet="Kathi Junction">
                         <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80"
                              alt="Rolls">
                         <div class="outlet-info">
@@ -96,7 +101,7 @@
                         </div>
                     </article>
 
-                    <article class="outlet-card">
+                    <article class="outlet-card" data-outlet="Maggi Point">
                         <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500&q=80"
                              alt="Maggi">
                         <div class="outlet-info">
@@ -108,7 +113,7 @@
                         </div>
                     </article>
 
-                    <article class="outlet-card">
+                    <article class="outlet-card" data-outlet="Greenox">
                         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80"
                              alt="Healthy food">
                         <div class="outlet-info">
@@ -217,6 +222,13 @@
                     <p id="modeMessage" class="muted">
                         Current mode: Group Order
                     </p>
+
+                    <div id="memberNameWrap" class="field member-wrap">
+                        <label for="menuMemberName">Ordering as (group member)</label>
+                        <input id="menuMemberName" type="text" maxlength="50"
+                               placeholder="e.g. Aman">
+                        <small class="error" data-error-for="menuMemberName"></small>
+                    </div>
                 </div>
 
 
@@ -340,8 +352,7 @@
                         </h3>
 
                         <p class="muted">
-                            Your separate order appears here when
-                            you select Order Separately.
+                            Items you add appear here. Use + / − to change quantity.
                         </p>
 
                         <div id="personalCartItems"></div>
@@ -392,7 +403,8 @@
                             <label for="memberName">Member Name</label>
                             <input id="memberName"
                                    type="text"
-                                   placeholder="Enter member name">
+                                   placeholder="Enter member name" maxlength="50">
+                            <small class="error" data-error-for="memberName"></small>
                         </div>
 
                         <div>
@@ -400,6 +412,7 @@
                             <input id="foodItem"
                                    type="text"
                                    placeholder="Enter food item">
+                            <small class="error" data-error-for="foodItem"></small>
                         </div>
 
                         <div>
@@ -409,6 +422,7 @@
                                    min="1"
                                    step="1"
                                    placeholder="Quantity">
+                            <small class="error" data-error-for="quantity"></small>
                         </div>
 
                         <div>
@@ -418,6 +432,7 @@
                                    min="0"
                                    step="0.01"
                                    placeholder="Price">
+                            <small class="error" data-error-for="price"></small>
                         </div>
 
                     </div>
@@ -495,6 +510,7 @@
             <a href="#home">Home</a>
             <a href="#outlets">Outlets</a>
             <a href="#menu">Menu</a>
+            <a href="contact.html">Contact</a>
         </div>
 
         <div>
@@ -504,33 +520,11 @@
         </div>
 
         <div>
-            <h3>About</h3>
-            <p>Made for campus students.</p>
+            <h3>Account</h3>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
         </div>
 
     </footer>
-<!-- ORDER CONFIRMATION MODAL -->
-<div id="confirmationModal" class="modal">
-
-    <div class="modal-content">
-
-        <div class="success-icon">✓</div>
-
-        <h2>Order Confirmed!</h2>
-
-        <p class="confirmation-message">
-            Your CampusBites group order has been confirmed.
-        </p>
-
-        <div id="confirmationDetails"></div>
-
-        <button type="button" id="closeConfirmation"
-                class="button">
-            Continue
-        </button>
-
-    </div>
-
-</div>
 </body>
 </html>
