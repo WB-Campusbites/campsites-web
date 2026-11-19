@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | CampusBites</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="common.js" defer></script>
+    <script src="forms.js" defer></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html#home" class="logo">🍔 CampusBites</a>
+
+        <div class="nav-links">
+            <a href="index.html#home" class="nav-link">Home</a>
+            <a href="index.html#outlets" class="nav-link">Outlets</a>
+            <a href="index.html#menu" class="nav-link">Menu</a>
+            <a href="index.html#group-order" class="nav-link">Group Order</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html#group-order" class="button">Group Cart</a>
+            <span id="authNav" class="auth-nav"></span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container narrow">
+            <div class="auth-card wide">
+                <h2>Contact &amp; Feedback</h2>
+                <p class="muted">Found a bug, want a new outlet, or have feedback? Tell us.</p>
+
+                <form id="contactForm" novalidate>
+                <div class="field">
+                    <label for="name">Your name</label>
+                    <input id="name" name="name" type="text" placeholder="Your name" maxlength="50">
+                    <small class="error" data-error-for="name"></small>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="you@college.edu">
+                    <small class="error" data-error-for="email"></small>
+                </div>
+                <div class="field">
+                    <label for="subject">Subject</label>
+                    <select id="subject" name="subject">
+                        <option value="">Choose a subject</option>
+                        <option>Feedback</option>
+                        <option>Report a problem</option>
+                        <option>Add my outlet</option>
+                        <option>Other</option>
+                    </select>
+                    <small class="error" data-error-for="subject"></small>
+                </div>
+                <div class="field">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" maxlength="500" placeholder="Write at least 10 characters..."></textarea>
+                    <small class="error" data-error-for="message"></small>
+                </div>
+                    <p class="char-count" id="charCount">0 / 500</p>
+                    <button type="submit" class="button full">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div>
+            <h2>🍔 CampusBites</h2>
+            <p>Making campus food ordering easier, one group at a time.</p>
+        </div>
+        <div>
+            <h3>Explore</h3>
+            <a href="index.html#home">Home</a>
+            <a href="index.html#outlets">Outlets</a>
+            <a href="index.html#menu">Menu</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div>
+            <h3>Ordering</h3>
+            <a href="index.html#menu">Order Separately</a>
+            <a href="index.html#group-order">Group Order</a>
+        </div>
+        <div>
+            <h3>Account</h3>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+        </div>
+    </footer>
+</body>
+</html>
