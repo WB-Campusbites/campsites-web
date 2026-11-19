@@ -543,7 +543,10 @@ function showOutletMenu(outletName) {
 
         card.className = "food-card";
 
+        var imgHtml = item.image ? '<img src="' + CB.escapeHtml(item.image) + '" alt="' + CB.escapeHtml(item.name) + '">' : '';
+
         card.innerHTML =
+            imgHtml +
             '<div class="food-info"><h3>' +
             CB.escapeHtml(item.name) + "</h3>" +
             '<div class="food-bottom"><b>₹' +
@@ -561,23 +564,67 @@ function showOutletMenu(outletName) {
     window.location.hash = "menu";
 }
 
-document.querySelectorAll(".outlet-card[data-outlet]")
-    .forEach(function (card) {
-
-        card.setAttribute("tabindex", "0");
-        card.setAttribute("role", "button");
-
-        card.addEventListener("click", function () {
-            showOutletMenu(card.getAttribute("data-outlet"));
-        });
-
-        card.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                showOutletMenu(card.getAttribute("data-outlet"));
-            }
-        });
+function filterMenuByCategory(categoryName) {
+    var allCards = foodList.querySelectorAll(".food-card");
+    var found = false;
+    // Check all menu items across current or active outlet
+    var outletTitle = document.getElementById("selectedOutletName").textContent.replace(" Menu", "").trim();
+    var items = outletMenus[outletTitle] || outletMenus["Burger Singh"] || [];
+    var filtered = items.filter(function (i) {
+        return i.category && i.category.toLowerCase().indexOf(categoryName.toLowerCase()) !== -1;
     });
+
+    if (filtered.length > 0) {
+        foodList.innerHTML = "";
+        filtered.forEach(function (item) {
+            var card = document.createElement("article");
+            card.className = "food-card";
+            var imgHtml = item.image ? '<img src="' + CB.escapeHtml(item.image) + '" alt="' + CB.escapeHtml(item.name) + '">' : '';
+            card.innerHTML =
+                imgHtml +
+                '<div class="food-info"><h3>' +
+                CB.escapeHtml(item.name) + "</h3>" +
+                '<div class="food-bottom"><b>₹' +
+                item.price + "</b>" +
+                '<button type="button" class="add-button" data-name="' +
+                CB.escapeHtml(item.name) +
+                '" data-price="' + item.price +
+                '">+ Add</button></div></div>';
+            foodList.appendChild(card);
+        });
+    }
+}
+
+function bindOutletCardListeners() {
+    document.querySelectorAll(".outlet-card[data-outlet]")
+        .forEach(function (card) {
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("role", "button");
+
+            card.onclick = function () {
+                showOutletMenu(card.getAttribute("data-outlet"));
+            };
+
+            card.onkeydown = function (e) {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    showOutletMenu(card.getAttribute("data-outlet"));
+                }
+            };
+        });
+}
+
+// Category sidebar click handlers
+document.querySelectorAll(".menu-side .side-item").forEach(function (link) {
+    link.addEventListener("click", function (e) {
+        var href = link.getAttribute("href");
+        if (href === "#food-burgers") filterMenuByCategory("Burgers");
+        else if (href === "#food-drinks") filterMenuByCategory("Beverages");
+        else if (href === "#food-sides") filterMenuByCategory("Sides");
+    });
+});
+
+bindOutletCardListeners();
 
 // ==================== SEARCH OUTLETS ====================
 
@@ -605,9 +652,67 @@ searchBox.addEventListener("input", function () {
     }
 });
 
+// ==================== DYNAMIC BACKEND INTEGRATION ====================
+
+function loadBackendData() {
+    if (!window.CB || !window.CB.getJSON) return;
+
+    // Load outlets from MongoDB Atlas backend
+    CB.getJSON("/api/outlets")
+        .then(function (result) {
+            if (result.ok && result.body && Array.isArray(result.body.outlets) && result.body.outlets.length > 0) {
+                console.log("Loaded " + result.body.outlets.length + " outlets from MongoDB backend");
+                var container = document.querySelector("#outlets .outlets");
+                if (container) {
+                    var html = "";
+                    result.body.outlets.forEach(function (o) {
+                        html += '<article class="outlet-card" data-outlet="' + CB.escapeHtml(o.name) + '">' +
+                            '<img src="' + CB.escapeHtml(o.image) + '" alt="' + CB.escapeHtml(o.name) + '">' +
+                            '<div class="outlet-info">' +
+                                '<div class="outlet-name"><b>' + CB.escapeHtml(o.name) + '</b><span>⭐ ' + (o.rating ? Number(o.rating).toFixed(1) : "4.0") + '</span></div>' +
+                                '<p>' + CB.escapeHtml(o.cuisine) + '</p>' +
+                            '</div>' +
+                        '</article>';
+                    });
+                    container.innerHTML = html;
+                    bindOutletCardListeners();
+                }
+            }
+        })
+        .catch(function (err) {
+            console.log("Backend outlets not reachable yet, using default display:", err);
+        });
+
+    // Load food items from MongoDB Atlas backend
+    CB.getJSON("/api/foods")
+        .then(function (result) {
+            if (result.ok && result.body && Array.isArray(result.body.foods) && result.body.foods.length > 0) {
+                console.log("Loaded " + result.body.foods.length + " menu items from MongoDB backend");
+                var grouped = {};
+                result.body.foods.forEach(function (f) {
+                    var oName = (f.outlet && f.outlet.name) ? f.outlet.name : "Burger Singh";
+                    if (!grouped[oName]) grouped[oName] = [];
+                    grouped[oName].push({
+                        name: f.name,
+                        price: f.price,
+                        category: f.category,
+                        image: f.image
+                    });
+                });
+                Object.keys(grouped).forEach(function (k) {
+                    outletMenus[k] = grouped[k];
+                });
+            }
+        })
+        .catch(function (err) {
+            console.log("Backend foods not reachable yet, using default display:", err);
+        });
+}
+
 // ==================== START APPLICATION ====================
 
 loadCart();
 changeMode(orderMode);
+loadBackendData();
 
 console.log("CampusBites initialized successfully");

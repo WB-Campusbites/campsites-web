@@ -30,12 +30,12 @@
                         onSuccess(result.body, form);
                     } else {
                         CB.showErrors(form, result.body.errors || {});
-                        CB.toast((result.body.errors && result.body.errors.items) ||
-                                 "Could not submit. Check the form.", "error");
+                        CB.toast((result.body.errors && (result.body.errors.items || result.body.errors.email || result.body.errors.password || result.body.errors.form)) ||
+                                 result.body.message || "Could not submit. Check the form.", "error");
                     }
                 })
                 .catch(function () {
-                    CB.toast("Cannot reach the server. Is it running (npm start)?", "error");
+                    CB.toast("Cannot reach backend server at " + CB.API_BASE_URL + ". Is it running?", "error");
                 })
                 .then(function () {
                     button.disabled = false;
@@ -44,7 +44,10 @@
         });
     }
 
-    function val(form, id) { return form.querySelector("#" + id).value.trim(); }
+    function val(form, id) {
+        var el = form.querySelector("#" + id);
+        return el ? el.value.trim() : "";
+    }
 
     /* ---------- SIGN UP ---------- */
     setupForm("signupForm",
@@ -64,11 +67,15 @@
         },
         "/api/signup",
         function (f) {
-            return { name: val(f, "name"), email: val(f, "email"), phone: val(f, "phone"),
-                     password: f.querySelector("#password").value };
+            return {
+                name: val(f, "name"),
+                email: val(f, "email"),
+                phone: val(f, "phone"),
+                password: f.querySelector("#password").value
+            };
         },
         function (body) {
-            CB.setUser(body.user);
+            CB.setUser(body.user, body.token);
             CB.toast("Account created! Redirecting...", "success");
             setTimeout(function () { location.href = "index.html"; }, 1200);
         });
@@ -83,10 +90,13 @@
         },
         "/api/login",
         function (f) {
-            return { email: val(f, "email"), password: f.querySelector("#password").value };
+            return {
+                email: val(f, "email"),
+                password: f.querySelector("#password").value
+            };
         },
         function (body) {
-            CB.setUser(body.user);
+            CB.setUser(body.user, body.token);
             CB.toast("Welcome back, " + body.user.name + "!", "success");
             setTimeout(function () { location.href = "index.html"; }, 1000);
         });
@@ -112,8 +122,12 @@
         },
         "/api/contact",
         function (f) {
-            return { name: val(f, "name"), email: val(f, "email"),
-                     subject: val(f, "subject"), message: val(f, "message") };
+            return {
+                name: val(f, "name"),
+                email: val(f, "email"),
+                subject: val(f, "subject"),
+                message: val(f, "message")
+            };
         },
         function (body, form) {
             CB.toast(body.message, "success");
@@ -136,9 +150,13 @@
         } else {
             renderSummary(pending);
             var user = CB.getUser();
-            if (user) {
+            if (user && user.name) {
                 checkoutForm.querySelector("#customerName").value = user.name;
             }
+            if (user && user.phone && checkoutForm.querySelector("#phone")) {
+                checkoutForm.querySelector("#phone").value = user.phone;
+            }
+
             setupForm("checkoutForm",
                 function (f) {
                     var e = {};
@@ -152,10 +170,14 @@
                 "/api/orders",
                 function (f) {
                     return {
-                        customerName: val(f, "customerName"), phone: val(f, "phone"),
-                        hostel: val(f, "hostel"), paymentMode: val(f, "paymentMode"),
-                        notes: val(f, "notes"), mode: pending.mode,
-                        groupCode: pending.groupCode, items: pending.items
+                        customerName: val(f, "customerName"),
+                        phone: val(f, "phone"),
+                        hostel: val(f, "hostel"),
+                        paymentMode: val(f, "paymentMode"),
+                        notes: val(f, "notes"),
+                        mode: pending.mode,
+                        groupCode: pending.groupCode,
+                        items: pending.items
                     };
                 },
                 function (body) {
@@ -163,7 +185,7 @@
                     localStorage.removeItem("cb_cart");
                     layout.hidden = true;
                     document.getElementById("confirmId").textContent = body.orderId;
-                    document.getElementById("confirmTotal").textContent = "₹" + body.total.toFixed(2);
+                    document.getElementById("confirmTotal").textContent = "₹" + Number(body.total).toFixed(2);
                     document.getElementById("checkoutDone").hidden = false;
                     CB.toast("Order placed!", "success");
                 });

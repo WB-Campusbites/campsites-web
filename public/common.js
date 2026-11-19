@@ -3,6 +3,15 @@
 
 window.CB = (function () {
 
+    // Central API configuration pointing to the Express backend
+    var API_BASE_URL = "http://localhost:5000";
+
+    function apiUrl(url) {
+        if (!url) return API_BASE_URL;
+        if (url.indexOf("http://") === 0 || url.indexOf("https://") === 0) return url;
+        return API_BASE_URL + (url.charAt(0) === "/" ? url : "/" + url);
+    }
+
     function escapeHtml(text) {
         var span = document.createElement("span");
         span.textContent = text;
@@ -33,7 +42,7 @@ window.CB = (function () {
     function showErrors(scope, errors) {
         clearErrors(scope);
         var firstInvalid = null;
-        Object.keys(errors).forEach(function (field) {
+        Object.keys(errors || {}).forEach(function (field) {
             var holder = scope.querySelector('[data-error-for="' + field + '"]');
             var input = scope.querySelector("#" + field);
             if (holder) holder.textContent = errors[field];
@@ -69,12 +78,50 @@ window.CB = (function () {
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     var PHONE_RE = /^[6-9]\d{9}$/;
 
-    /* ----- API ----- */
+    /* ----- Authentication Token Management ----- */
+    function getToken() {
+        return localStorage.getItem("cb_token") || null;
+    }
+
+    function setToken(token) {
+        if (token) {
+            localStorage.setItem("cb_token", token);
+        } else {
+            localStorage.removeItem("cb_token");
+        }
+    }
+
+    /* ----- Centralized API Helpers ----- */
     function postJSON(url, data) {
-        return fetch(url, {
+        var targetUrl = apiUrl(url);
+        var headers = { "Content-Type": "application/json" };
+        var token = getToken();
+        if (token) {
+            headers["Authorization"] = "Bearer " + token;
+        }
+
+        return fetch(targetUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: headers,
             body: JSON.stringify(data)
+        }).then(function (res) {
+            return res.json().then(function (body) {
+                return { ok: res.ok, status: res.status, body: body };
+            });
+        });
+    }
+
+    function getJSON(url) {
+        var targetUrl = apiUrl(url);
+        var headers = {};
+        var token = getToken();
+        if (token) {
+            headers["Authorization"] = "Bearer " + token;
+        }
+
+        return fetch(targetUrl, {
+            method: "GET",
+            headers: headers
         }).then(function (res) {
             return res.json().then(function (body) {
                 return { ok: res.ok, status: res.status, body: body };
@@ -86,9 +133,21 @@ window.CB = (function () {
     function getUser() {
         try { return JSON.parse(localStorage.getItem("cb_user")); } catch (e) { return null; }
     }
-    function setUser(user) { localStorage.setItem("cb_user", JSON.stringify(user)); }
+
+    function setUser(user, token) {
+        if (user) {
+            localStorage.setItem("cb_user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("cb_user");
+        }
+        if (token) {
+            setToken(token);
+        }
+    }
+
     function logout() {
         localStorage.removeItem("cb_user");
+        localStorage.removeItem("cb_token");
         toast("Logged out", "info");
         renderAuthNav();
     }
@@ -97,7 +156,7 @@ window.CB = (function () {
         var slot = document.getElementById("authNav");
         if (!slot) return;
         var user = getUser();
-        if (user) {
+        if (user && user.name) {
             slot.innerHTML = '<span class="user-chip">Hi, ' + escapeHtml(user.name.split(" ")[0]) +
                 '</span><button type="button" class="outline-button" id="logoutButton">Logout</button>';
             document.getElementById("logoutButton").addEventListener("click", logout);
@@ -134,8 +193,21 @@ window.CB = (function () {
     window.addEventListener("hashchange", markActiveLink);
 
     return {
-        escapeHtml: escapeHtml, toast: toast, showErrors: showErrors,
-        clearErrors: clearErrors, liveClear: liveClear, postJSON: postJSON,
-        getUser: getUser, setUser: setUser, EMAIL_RE: EMAIL_RE, PHONE_RE: PHONE_RE
+        escapeHtml: escapeHtml,
+        toast: toast,
+        showErrors: showErrors,
+        clearErrors: clearErrors,
+        liveClear: liveClear,
+        postJSON: postJSON,
+        getJSON: getJSON,
+        getUser: getUser,
+        setUser: setUser,
+        getToken: getToken,
+        setToken: setToken,
+        logout: logout,
+        apiUrl: apiUrl,
+        API_BASE_URL: API_BASE_URL,
+        EMAIL_RE: EMAIL_RE,
+        PHONE_RE: PHONE_RE
     };
 })();

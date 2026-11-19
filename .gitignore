@@ -1,0 +1,4 @@
+node_modules/
+.env
+campusbites-backend/node_modules/
+campusbites-backend/.env
