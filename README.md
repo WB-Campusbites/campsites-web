@@ -8,7 +8,7 @@
 **Phase 1**
 - Squad group ordering with a shared cart (demo code `CB-7X2W`)
 - Automatic bill splitter (per-member subtotal + shared delivery charge)
-- Outlet browsing, outlet-wise menus (click an outlet to open its menu) and outlet search
+- Outlet browsing, outlet-wise menus and outlet search
 - Responsive layout (desktop / tablet / mobile)
 
 **Phase 2**
@@ -48,7 +48,9 @@ Open http://localhost:3000
     ├── index.html     # Home, Outlets, Menu, Group Order sections
     ├── login.html  signup.html  contact.html  checkout.html
     ├── style.css
-    └── app.js         # all JavaScript: helpers, navbar, forms, menu, carts, search
+    ├── common.js      # toasts, validation helpers, navbar login state
+    ├── forms.js       # signup / login / contact / checkout forms
+    └── script.js      # carts, bill splitter, outlet menus, search
 ```
 
 ## API
